@@ -6,6 +6,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/ecommercee/products")
 public class ProductController {
+
     @GetMapping
     public List<Object> getProducts() {
         return new ArrayList<>();
