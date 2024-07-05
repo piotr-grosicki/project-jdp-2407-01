@@ -8,22 +8,22 @@ import java.util.List;
 public class ProductController {
 
     @GetMapping
-    public List<Object> getProducts() {
+    public List<String> getProducts() {
         return new ArrayList<>();
     }
 
-    @GetMapping
-    public Object getProduct(Long productId) {
-        return new Object();
+    @GetMapping("/product")
+    public String getProduct(Long productId) {
+        return "product";
     }
 
     @PostMapping
-    public void createProduct(Object productDto) {
+    public void createProduct(String productDto) {
     }
 
     @PutMapping
-    public Object updateProduct(Object productDto) {
-        return new Object();
+    public String updateProduct(String productDto) {
+        return "updated product";
     }
 
     @DeleteMapping
