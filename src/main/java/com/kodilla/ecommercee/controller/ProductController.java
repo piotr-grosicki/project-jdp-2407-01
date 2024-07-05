@@ -1,5 +1,8 @@
 package com.kodilla.ecommercee.controller;
+import com.kodilla.ecommercee.domain.dto.ProductDto;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,22 +11,34 @@ import java.util.List;
 public class ProductController {
 
     @GetMapping
-    public List<String> getProducts() {
+    public List<ProductDto> getProducts() {
         return new ArrayList<>();
     }
 
     @GetMapping("/product")
-    public String getProduct(Long productId) {
-        return "product";
+    public ProductDto getProduct(Long productId) {
+        return new ProductDto(
+                1L,
+                "test_name",
+                "test_description",
+                new BigDecimal(1),
+                1L
+        );
     }
 
     @PostMapping
-    public void createProduct(String productDto) {
+    public void createProduct(ProductDto productDto) {
     }
 
     @PutMapping
-    public String updateProduct(String productDto) {
-        return "updated product";
+    public ProductDto updateProduct(ProductDto productDto) {
+        return new ProductDto(
+                1L,
+                "updated_test_name",
+                "updated_test_description",
+                new BigDecimal(1),
+                1L
+        );
     }
 
     @DeleteMapping
