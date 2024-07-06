@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.dto.ProductDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -15,8 +16,8 @@ public class ProductController {
         return new ArrayList<>();
     }
 
-    @GetMapping("/product")
-    public ProductDto getProduct(Long productId) {
+    @GetMapping(value = "{productId}")
+    public ProductDto getProduct(@PathVariable Long productId) {
         return new ProductDto(
                 1L,
                 "test_name",
@@ -26,12 +27,12 @@ public class ProductController {
         );
     }
 
-    @PostMapping
-    public void createProduct(ProductDto productDto) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createProduct(@RequestBody ProductDto productDto) {
     }
 
     @PutMapping
-    public ProductDto updateProduct(ProductDto productDto) {
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         return new ProductDto(
                 1L,
                 "updated_test_name",
@@ -41,7 +42,7 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping
-    public void deleteProduct(Long productId) {
+    @DeleteMapping(value = "{productId}")
+    public void deleteProduct(@PathVariable Long productId) {
     }
 }
