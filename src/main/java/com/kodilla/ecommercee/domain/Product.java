@@ -1,6 +1,9 @@
 package com.kodilla.ecommercee.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +23,13 @@ public class Product {
     private Long id;
 
     @Column(name = "name", unique = true)
+    @NotNull
     private String name;
 
     @Column(name = "price")
+    @NotNull
+    @Min(value = 0)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal price;
 
     @Column(name = "description")
