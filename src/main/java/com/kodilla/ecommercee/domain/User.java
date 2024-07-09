@@ -10,3 +10,4 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 }
+//
