@@ -15,18 +15,19 @@ public class GroupController {
         return new ArrayList<>();
     }
 
-    @GetMapping("/group/{groupId}")
+    @GetMapping("/{groupId}")
     public GroupDto getGroupById(@PathVariable Long groupId) {
         return new GroupDto(groupId, "test group name", new ArrayList<>());
     }
 
     @PostMapping
-    public void createGroup(@RequestParam String name) {
-        System.out.println("Group with name " + name + " created");
+    public void createGroup(@RequestBody GroupDto groupDto) {
+        System.out.println("Group with name " + groupDto.getName() + " created");
     }
 
-    @PutMapping(value = "{groupId}")
-    public GroupDto updateGroup(@PathVariable Long groupId, @RequestParam Long productId) {
-        return new GroupDto(groupId, "updated test group name", new ArrayList<>());
+    @PutMapping("/{groupId}")
+    public GroupDto updateGroup(@PathVariable Long groupId, @RequestBody GroupDto groupDto) {
+        return new GroupDto(groupId, groupDto.getName(), new ArrayList<>());
     }
 }
+

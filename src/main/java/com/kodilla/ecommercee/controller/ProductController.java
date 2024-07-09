@@ -16,15 +16,9 @@ public class ProductController {
         return new ArrayList<>();
     }
 
-    @GetMapping(value = "{productId}")
+    @GetMapping("/{productId}")
     public ProductDto getProduct(@PathVariable Long productId) {
-        return new ProductDto(
-                1L,
-                "test_name",
-                "test_description",
-                new BigDecimal(1),
-                1L
-        );
+        return new ProductDto(1L, "test_name", "test_description", new BigDecimal(1), 1L);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -33,16 +27,11 @@ public class ProductController {
 
     @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto(
-                1L,
-                "updated_test_name",
-                "updated_test_description",
-                new BigDecimal(1),
-                1L
-        );
+        return new ProductDto(1L, "updated_test_name", "updated_test_description", new BigDecimal(1), 1L);
     }
 
-    @DeleteMapping(value = "{productId}")
+    @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable Long productId) {
     }
 }
+
