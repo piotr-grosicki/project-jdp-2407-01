@@ -26,4 +26,3 @@ public class Order {
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 }
-//
