@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.CreateUserDto;
+import com.kodilla.ecommercee.domain.dto.CreateUserDto;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
