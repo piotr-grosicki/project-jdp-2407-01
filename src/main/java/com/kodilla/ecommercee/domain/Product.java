@@ -1,12 +1,16 @@
 package com.kodilla.ecommercee.domain;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
+
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,3 +51,4 @@ public class Product {
     )
     private List<Cart> carts;
 }
+
