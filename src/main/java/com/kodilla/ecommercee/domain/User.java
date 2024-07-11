@@ -9,7 +9,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,11 +34,14 @@ public class User {
     private boolean isBlocked;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cart> carts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 
-    @Column(name = "random_key")
-    private String randomKey;
+    @Column(name = "user_key")
+    private String userKey;
 
-    @Column(name = "key_expiration_time")
-    private LocalDateTime keyExpirationTime;
+    @Column(name = "key_expiration")
+    private LocalDateTime keyExpiration;
 }
