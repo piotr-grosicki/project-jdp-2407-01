@@ -21,23 +21,21 @@ public class UserController {
 
     @PostMapping("/{id}/block")
     public ResponseEntity<String> blockUser(@PathVariable Long id) {
-        return ResponseEntity.ok("User" + id + "blocked");
+        return ResponseEntity.ok("User " + id + " blocked");
     }
 
-    @PostMapping("/generateKey")
+    @PostMapping("/{userId}/generateKey")
     public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
         String key = generateRandomString();
         return ResponseEntity.ok(key);
     }
 
-        private String generateRandomString() {
-            String characters = "ABCD0123456789";
-            StringBuilder sb = new StringBuilder(24);
-            for (int i = 0; i < 24; i++) {
-                sb.append(characters.charAt(random.nextInt(characters.length())));
-            }
-            return sb.toString();
+    private String generateRandomString() {
+        String characters = "ABCD0123456789";
+        StringBuilder sb = new StringBuilder(24);
+        for (int i = 0; i < 24; i++) {
+            sb.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return sb.toString();
     }
 }
-
-
