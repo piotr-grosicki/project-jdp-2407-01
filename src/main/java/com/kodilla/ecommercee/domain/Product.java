@@ -13,16 +13,18 @@ import jakarta.validation.constraints.NotNull;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Entity(name = "products")
+@Entity
+@Table(name = "products")
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
 
@@ -49,6 +51,6 @@ public class Product {
             joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")}
     )
-    private List<Cart> carts;
+    private List<Cart> carts = new ArrayList<>();
 }
 
