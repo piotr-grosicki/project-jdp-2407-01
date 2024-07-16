@@ -47,7 +47,7 @@ public class OrderTest {
         testUser.setOrders(new ArrayList<>());
 
 
-        testCart = new Cart(null, testUser, null);
+        testCart = new Cart(null, testUser, null, null);
         cartRepository.save(testCart);
     }
 
