@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -28,13 +29,14 @@ class EntityProductRepositoryMethodsTests {
     private ProductRepository productRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     private Product product;
 
     @BeforeEach
     void setUp() {
         Group group = new Group();
-        groupRepository.save(group);
         product = new Product(
                 null,
                 "test name",
@@ -43,17 +45,21 @@ class EntityProductRepositoryMethodsTests {
                 group,
                 new ArrayList<>()
         );
+        groupRepository.save(group);
     }
 
     @Test
     public void shouldCreateProduct() {
         //Given
+        Long groupBeforeSave = product.getGroup().getId();
         //When
         productRepository.save(product);
 
         //Then
-        Long id = product.getId();
-        assertTrue(productRepository.findById(id).isPresent());
+        Long productId = product.getId();
+        Long groupId = product.getGroup().getId();
+        assertTrue(productRepository.findById(productId).isPresent());
+        assertEquals(groupBeforeSave, groupId);
     }
 
     @Test
@@ -76,18 +82,22 @@ class EntityProductRepositoryMethodsTests {
     @Test
     public void shouldUpdateProduct() {
         //Given
-        product.getCarts().add(new Cart());
+        Cart cart = new Cart();
+        product.getCarts().add(cart);
         //When
         productRepository.save(product);
 
         //Then
+        Long cartId = cart.getId();
         assertEquals(1, product.getCarts().size());
         assertNotNull(product.getCarts().get(0));
+        assertTrue(cartRepository.findById(cartId).isPresent());
     }
 
     @Test
     public void shouldDeleteProduct() {
         //Given
+        product.getCarts().add(new Cart());
         productRepository.save(product);
         Long productId = product.getId();
         List<Product> allProducts = productRepository.findAll();
@@ -100,5 +110,6 @@ class EntityProductRepositoryMethodsTests {
         assertTrue(productFoundById.isEmpty());
         assertEquals(1, allProducts.size());
         assertEquals(0, productRepository.findAll().size());
+        assertTrue(cartRepository.findAll().isEmpty());
     }
 }
