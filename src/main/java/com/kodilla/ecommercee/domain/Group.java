@@ -15,7 +15,7 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "groups")
+@Table(name = "\"groups\"")
 public class Group {
 
     @Id
