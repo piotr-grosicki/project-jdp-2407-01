@@ -49,12 +49,6 @@ public class OrderTest {
         cartRepository.save(testCart);
     }
 
-    @AfterEach
-    void cleanup() {
-        orderRepository.deleteAll();
-        cartRepository.deleteAll();
-        userRepository.deleteAll();
-    }
 
     @Test
     void SavedOrder() {
