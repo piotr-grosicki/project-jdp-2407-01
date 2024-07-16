@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,6 +44,7 @@ public class OrderTest {
 
         testUser = new User(null, "testUser", "password", "test@example.com", false, null, null, null, null);
         userRepository.save(testUser);
+        testUser.setOrders(new ArrayList<>());
 
 
         testCart = new Cart(null, testUser, null);
@@ -78,6 +80,7 @@ public class OrderTest {
     void updateOrder() {
         // given
         Order order = new Order(null, LocalDateTime.now(), testUser, testCart, BigDecimal.valueOf(100));
+        testUser.getOrders().add(order);
         Order savedOrder = orderRepository.save(order);
 
         // when
@@ -88,6 +91,12 @@ public class OrderTest {
         // then
         assertEquals(savedOrder.getDate(), updatedOrder.getDate());
         assertEquals(savedOrder.getOrderValue(), updatedOrder.getOrderValue());
+
+        User updatedUser = userRepository.findById(testUser.getId()).orElseThrow();
+        boolean foundUpdatedOrder = updatedUser.getOrders().stream()
+                .anyMatch(o -> o.getId().equals(updatedOrder.getId()) && o.getOrderValue().equals(BigDecimal.valueOf(150)));
+        assertTrue(foundUpdatedOrder);
+
     }
     @Test
     void deleteOrder() {
@@ -101,5 +110,7 @@ public class OrderTest {
         // then
         Optional<Order> readOrder = orderRepository.findById(savedOrder.getId());
         assertFalse(readOrder.isPresent());
+        Optional<Cart> readCart = cartRepository.findById(testCart.getId());
+        assertFalse(readCart.isPresent());
     }
 }
