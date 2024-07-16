@@ -20,4 +20,7 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(mappedBy = "cart")
+    private Order order;
 }
