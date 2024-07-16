@@ -45,12 +45,7 @@ public class Product {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "product_in_cart",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")}
-    )
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "products")
     private List<Cart> carts = new ArrayList<>();
 }
 

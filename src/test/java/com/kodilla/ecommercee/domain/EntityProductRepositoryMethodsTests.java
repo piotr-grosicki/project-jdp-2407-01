@@ -100,6 +100,8 @@ class EntityProductRepositoryMethodsTests {
         product.getCarts().add(new Cart());
         productRepository.save(product);
         Long productId = product.getId();
+        Long cartId = product.getCarts().get(0).getId();
+        Long groupId = product.getGroup().getId();
         List<Product> allProducts = productRepository.findAll();
 
         //When
@@ -110,6 +112,7 @@ class EntityProductRepositoryMethodsTests {
         assertTrue(productFoundById.isEmpty());
         assertEquals(1, allProducts.size());
         assertEquals(0, productRepository.findAll().size());
-        assertTrue(cartRepository.findAll().isEmpty());
+        assertTrue(cartRepository.findById(cartId).isPresent());
+        assertTrue(groupRepository.findById(groupId).isPresent());
     }
 }

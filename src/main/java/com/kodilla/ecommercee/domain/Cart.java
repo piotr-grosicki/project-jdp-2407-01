@@ -28,7 +28,12 @@ public class Cart {
     @OneToOne(mappedBy = "cart")
     private Order order;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "carts")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "products_in_carts",
+            joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")}
+    )
     private List<Product> products = new ArrayList<>();
 
 }
