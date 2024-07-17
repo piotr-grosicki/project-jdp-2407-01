@@ -32,6 +32,6 @@ public class Order {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
-    @Column(name = "VALUE")
+    @Column(name = "ORDER_VALUE")
     private BigDecimal orderValue;
 }

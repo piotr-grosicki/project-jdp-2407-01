@@ -53,11 +53,11 @@ class EntityProductRepositoryMethodsTests {
         //Given
         Long groupBeforeSave = product.getGroup().getId();
         //When
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //Then
-        Long productId = product.getId();
-        Long groupId = product.getGroup().getId();
+        Long productId = savedProduct.getId();
+        Long groupId = savedProduct.getGroup().getId();
         assertTrue(productRepository.findById(productId).isPresent());
         assertEquals(groupBeforeSave, groupId);
     }
@@ -65,8 +65,8 @@ class EntityProductRepositoryMethodsTests {
     @Test
     public void shouldReadProducts() {
         //Given
-        Product saved = productRepository.save(product);
-        Long productId = saved.getId();
+        Product savedProduct = productRepository.save(product);
+        Long productId = savedProduct.getId();
 
         //When
         Optional<Product> productFoundById = productRepository.findById(productId);
@@ -75,7 +75,7 @@ class EntityProductRepositoryMethodsTests {
         //Then
         assertTrue(productFoundById.isPresent());
         assertEquals(productFoundById.get().getId(), productId);
-        assertTrue(allFoundProducts.contains(saved));
+        assertTrue(allFoundProducts.contains(savedProduct));
         assertEquals(1, allFoundProducts.size());
     }
 
@@ -85,12 +85,12 @@ class EntityProductRepositoryMethodsTests {
         Cart cart = new Cart();
         product.getCarts().add(cart);
         //When
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //Then
         Long cartId = cart.getId();
-        assertEquals(1, product.getCarts().size());
-        assertNotNull(product.getCarts().get(0));
+        assertEquals(1, savedProduct.getCarts().size());
+        assertNotNull(savedProduct.getCarts().get(0));
         assertTrue(cartRepository.findById(cartId).isPresent());
     }
 
@@ -98,14 +98,14 @@ class EntityProductRepositoryMethodsTests {
     public void shouldDeleteProduct() {
         //Given
         product.getCarts().add(new Cart());
-        productRepository.save(product);
-        Long productId = product.getId();
-        Long cartId = product.getCarts().get(0).getId();
-        Long groupId = product.getGroup().getId();
+        Product savedProduct = productRepository.save(product);
+        Long productId = savedProduct.getId();
+        Long cartId = savedProduct.getCarts().get(0).getId();
+        Long groupId = savedProduct.getGroup().getId();
         List<Product> allProducts = productRepository.findAll();
 
         //When
-        productRepository.delete(product);
+        productRepository.delete(savedProduct);
 
         //Then
         Optional<Product> productFoundById = productRepository.findById(productId);

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "carts")
 public class Cart {
@@ -23,7 +25,6 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @OneToOne(mappedBy = "cart")
     private Order order;
