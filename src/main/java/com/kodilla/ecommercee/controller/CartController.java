@@ -38,12 +38,6 @@ public class CartController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CartDto> updateCart(@PathVariable String id, @RequestBody CartDto updatedCart) {
-        for (CartDto cart : carts) {
-            if (cart.getId().equals(id)) {
-                cart.setItems(updatedCart.getItems());
-                return new ResponseEntity<>(cart, HttpStatus.OK);
-            }
-        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
