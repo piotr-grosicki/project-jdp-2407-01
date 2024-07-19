@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "products")
 public class Product {
@@ -45,7 +47,11 @@ public class Product {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "products")
-    private List<Cart> carts = new ArrayList<>();
+    public Product(String name, BigDecimal price, String description, Group group) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.group = group;
+    }
 }
 
