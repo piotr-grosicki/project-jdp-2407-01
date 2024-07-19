@@ -47,7 +47,7 @@ public class EntityOrderRepositoryMethodsTests {
         user = userRepository.save(user);
 
         cart = new Cart(
-                null, user, null, null, null
+                null, user, BigDecimal.ZERO, null, null
         );
         cart = cartRepository.save(cart);
     }
@@ -112,6 +112,6 @@ public class EntityOrderRepositoryMethodsTests {
 
         // then
         assertFalse(orderRepository.findById(savedOrder.getId()).isPresent());
-        assertTrue(cartRepository.findById(cart.getId()).isPresent());
+        assertFalse(cartRepository.findById(cart.getId()).isPresent());
     }
 }
