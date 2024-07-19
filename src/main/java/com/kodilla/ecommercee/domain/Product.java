@@ -10,11 +10,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
