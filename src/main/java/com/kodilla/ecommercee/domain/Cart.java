@@ -25,7 +25,7 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -35,7 +35,7 @@ public class Cart {
     private BigDecimal totalPrice;
 
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.PERSIST)
     private Order order;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

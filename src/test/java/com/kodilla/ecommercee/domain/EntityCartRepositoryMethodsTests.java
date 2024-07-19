@@ -2,106 +2,108 @@ package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.repository.*;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class CartTestSuite {
+public class EntityCartRepositoryMethodsTests {
 
     @Autowired
     private CartRepository cartRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private GroupRepository groupRepository;
-    @Autowired
     private OrderRepository orderRepository;
+
+    private Cart cart;
+
+    @BeforeEach
+    void setUp() {
+        User user = new User("test name", "test password", "test mail", false);
+        cart = new Cart();
+        cart.setUser(user);
+        cart.setTotalPrice(BigDecimal.valueOf(100.00));
+    }
 
     @Test
     void testCreateCart() {
         // Given
-        Cart cart = new Cart();
-        cart.setTotalPrice(BigDecimal.valueOf(100.00));
-
         // When
         Cart savedCart = cartRepository.save(cart);
 
         // Then
         Long id = savedCart.getId();
         Optional<Cart> createdCart = cartRepository.findById(id);
-        assertThat(createdCart.isPresent()).isTrue();
+        assertTrue(createdCart.isPresent());
     }
 
     @Test
     void testReadCart() {
         // Given
-        Cart cart = new Cart();
-        cart.setTotalPrice(BigDecimal.valueOf(200.00));
         cartRepository.save(cart);
+        Long id = cart.getId();
 
         // When
-        Long id = cart.getId();
+        List<Cart> allCarts = cartRepository.findAll();
         Optional<Cart> readCart = cartRepository.findById(id);
 
         // Then
-        assertThat(readCart.isPresent()).isTrue();
-        assertThat(readCart.get().getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(200.00));
+        assertTrue(readCart.isPresent());
+        assertEquals(readCart.get().getTotalPrice(), BigDecimal.valueOf(100.00));
+        assertEquals(1, allCarts.size());
     }
 
     @Test
     void testUpdateCart() {
         // Given
-        Cart cart = new Cart();
-        cart.setTotalPrice(BigDecimal.valueOf(300.00));
         Cart saved = cartRepository.save(cart);
-        Long id = cart.getId();
+        Product product = new Product("Airmax", BigDecimal.valueOf(100), "testing", new Group());
         saved.setTotalPrice(BigDecimal.valueOf(400.00));
+        saved.getProducts().add(product);
 
         // When
-        cartRepository.save(cart);
+        cartRepository.save(saved);
 
         // Then
+        Long id = saved.getId();
         Optional<Cart> updatedCart = cartRepository.findById(id);
-        assertThat(updatedCart.isPresent()).isTrue();
-        assertThat(updatedCart.get().getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(400.00));
+        assertTrue(updatedCart.isPresent());
+        assertEquals(BigDecimal.valueOf(400.00), updatedCart.get().getTotalPrice());
+        assertEquals(1, updatedCart.get().getProducts().size());
     }
 
     @Test
     void testDeleteCart() {
         // Given
-        Cart cart = new Cart();
-        cart.setTotalPrice(BigDecimal.valueOf(500.00));
-        User user = new User(null, "test username", "test password", "test e-mail", false, new ArrayList<>(), new ArrayList<>(), "test userKey", LocalDateTime.now());
-        User savedUser = userRepository.save(user);
-        cart.setUser(savedUser);
+        Order order = new Order(LocalDateTime.now(), cart.getUser());
+        cart.setOrder(order);
         Cart savedCart = cartRepository.save(cart);
         Long id = cart.getId();
         Long userId = savedCart.getUser().getId();
+        Long orderId = savedCart.getOrder().getId();
 
         // When
         cartRepository.deleteById(id);
 
         // Then
         Optional<Cart> deletedCart = cartRepository.findById(id);
-        assertThat(deletedCart.isEmpty()).isTrue();
+        assertTrue(deletedCart.isEmpty());
         assertTrue(userRepository.findById(userId).isPresent());
+        assertEquals(0, cartRepository.findAll().size());
+        assertTrue(orderRepository.findById(orderId).isPresent());
     }
-
 }
