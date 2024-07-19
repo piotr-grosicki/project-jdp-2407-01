@@ -45,4 +45,11 @@ public class User {
 
     @Column(name = "key_expiration")
     private LocalDateTime keyExpiration;
+
+    public User(String username, String password, String email, boolean isBlocked) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isBlocked = isBlocked;
+    }
 }

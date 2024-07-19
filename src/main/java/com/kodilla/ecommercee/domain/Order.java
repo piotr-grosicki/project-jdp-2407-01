@@ -34,4 +34,9 @@ public class Order {
 
     @Column(name = "ORDER_VALUE")
     private BigDecimal orderValue;
+
+    public Order(LocalDateTime date, User user) {
+        this.date = date;
+        this.user = user;
+    }
 }
