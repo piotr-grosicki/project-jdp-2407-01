@@ -4,7 +4,6 @@ package com.kodilla.ecommercee.domain;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,11 +20,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
+
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class OrderTest {
+public class EntityOrderRepositoryMethodsTests {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -36,37 +35,41 @@ public class OrderTest {
     @Autowired
     private CartRepository cartRepository;
 
-    private User testUser;
-    private Cart testCart;
+    private User user;
+    private Cart cart;
 
     @BeforeEach
     void setUp() {
+        user = new User(
+                "testUser", "password", "test@example.com",
+                false
+        );
+        user = userRepository.save(user);
 
-        testUser = new User(null, "testUser", "password", "test@example.com", false, null, null, null, null);
-        userRepository.save(testUser);
-        testUser.setOrders(new ArrayList<>());
-
-
-        testCart = new Cart(null, testUser, null, null);
-        cartRepository.save(testCart);
+        cart = new Cart(
+                null, user, null, null, null
+        );
+        cart = cartRepository.save(cart);
     }
 
 
     @Test
-    void SavedOrder() {
+    void shouldSaveOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), testUser, testCart, BigDecimal.valueOf(100));
+        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
 
         // when
         Order savedOrder = orderRepository.save(order);
 
         // then
         assertNotNull(savedOrder.getId());
+        orderRepository.findById(savedOrder.getId());
+
     }
     @Test
-    void ReadOrder() {
+    void shouldReadOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), testUser, testCart, BigDecimal.valueOf(100));
+        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
         Order savedOrder = orderRepository.save(order);
 
         // when
@@ -77,10 +80,10 @@ public class OrderTest {
         assertEquals(savedOrder.getId(), readOrder.get().getId());
     }
     @Test
-    void updateOrder() {
+    void shouldUpdateOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), testUser, testCart, BigDecimal.valueOf(100));
-        testUser.getOrders().add(order);
+        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        user.getOrders().add(order);
         Order savedOrder = orderRepository.save(order);
 
         // when
@@ -92,25 +95,23 @@ public class OrderTest {
         assertEquals(savedOrder.getDate(), updatedOrder.getDate());
         assertEquals(savedOrder.getOrderValue(), updatedOrder.getOrderValue());
 
-        User updatedUser = userRepository.findById(testUser.getId()).orElseThrow();
+        User updatedUser = userRepository.findById(user.getId()).orElseThrow();
         boolean foundUpdatedOrder = updatedUser.getOrders().stream()
                 .anyMatch(o -> o.getId().equals(updatedOrder.getId()) && o.getOrderValue().equals(BigDecimal.valueOf(150)));
         assertTrue(foundUpdatedOrder);
 
     }
     @Test
-    void deleteOrder() {
+    void shouldDeleteOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), testUser, testCart, BigDecimal.valueOf(100));
+        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
         Order savedOrder = orderRepository.save(order);
 
         // when
         orderRepository.deleteById(savedOrder.getId());
 
         // then
-        Optional<Order> readOrder = orderRepository.findById(savedOrder.getId());
-        assertFalse(readOrder.isPresent());
-        Optional<Cart> readCart = cartRepository.findById(testCart.getId());
-        assertFalse(readCart.isPresent());
+        assertFalse(orderRepository.findById(savedOrder.getId()).isPresent());
+        assertTrue(cartRepository.findById(cart.getId()).isPresent());
     }
 }

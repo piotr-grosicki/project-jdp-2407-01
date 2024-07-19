@@ -1,6 +1,9 @@
 package com.kodilla.ecommercee.controller;
+
 import com.kodilla.ecommercee.domain.dto.ProductDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -12,37 +15,27 @@ import java.util.List;
 public class ProductController {
 
     @GetMapping
-    public List<ProductDto> getProducts() {
-        return new ArrayList<>();
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "{productId}")
-    public ProductDto getProduct(@PathVariable Long productId) {
-        return new ProductDto(
-                1L,
-                "test_name",
-                "test_description",
-                new BigDecimal(1),
-                1L
-        );
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long productId) {
+        return new ResponseEntity<>(new ProductDto(1L, "test_name", "test_description", new BigDecimal(1), 1L), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto(
-                1L,
-                "updated_test_name",
-                "updated_test_description",
-                new BigDecimal(1),
-                1L
-        );
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(new ProductDto(1L, "updated_test_name", "updated_test_description", new BigDecimal(1), 1L), HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "{productId}")
-    public void deleteProduct(@PathVariable Long productId) {
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

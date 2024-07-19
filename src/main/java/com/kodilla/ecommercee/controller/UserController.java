@@ -1,33 +1,33 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.dto.CreateUserDto;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
 @RestController
-@RequestMapping("v1/shop/users")
+@RequestMapping("/v1/shop/users")
 public class UserController {
 
     private final Random random = new Random();
 
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDTO) {
-        String message = "User " + createUserDTO.getUsername() + " created";
-        return ResponseEntity.ok(message);
+        String message = "User " + createUserDTO.username() + " created";
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/block")
     public ResponseEntity<String> blockUser(@PathVariable Long id) {
-        return ResponseEntity.ok("User " + id + " blocked");
+        return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/generateKey")
     public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
         String key = generateRandomString();
-        return ResponseEntity.ok(key);
+        return new ResponseEntity<>(key, HttpStatus.OK);
     }
 
     private String generateRandomString() {
