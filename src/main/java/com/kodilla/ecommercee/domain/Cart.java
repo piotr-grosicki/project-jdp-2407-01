@@ -26,15 +26,17 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+
     @NotNull
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "total_price", nullable = false)
     @Min(value = 0, message = "Total price cannot be negative")
     @Digits(integer = 10, fraction = 2, message = "Total price must be a valid amount")
     private BigDecimal totalPrice = BigDecimal.ZERO;
+
 
     @OneToOne(mappedBy = "cart", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Order order;
