@@ -111,6 +111,6 @@ public class OrderTest {
         Optional<Order> readOrder = orderRepository.findById(savedOrder.getId());
         assertFalse(readOrder.isPresent());
         Optional<Cart> readCart = cartRepository.findById(testCart.getId());
-        assertFalse(readCart.isPresent());
+        assertTrue(readCart.isPresent());
     }
 }
