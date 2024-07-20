@@ -1,32 +1,35 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.dto.GroupDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/ecommercee/groups")
+@RequestMapping("/v1/ecommercee/groups")
 public class GroupController {
 
     @GetMapping
-    public List<GroupDto> getGroups() {
-        return new ArrayList<>();
+    public ResponseEntity<List<GroupDto>> getGroups() {
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
-    @GetMapping("/group/{groupId}")
-    public GroupDto getGroupById(@PathVariable Long groupId) {
-        return new GroupDto(groupId, "test group name", new ArrayList<>());
+    @GetMapping("/{groupId}")
+    public ResponseEntity<GroupDto> getGroupById(@PathVariable Long groupId) {
+        return new ResponseEntity<>(new GroupDto(groupId, "test group name", new ArrayList<>()), HttpStatus.OK);
     }
 
     @PostMapping
-    public void createGroup(@RequestParam String name) {
+    public ResponseEntity<Void> createGroup(@RequestParam String name) {
         System.out.println("Group with name " + name + " created");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "{groupId}")
-    public GroupDto updateGroup(@PathVariable Long groupId, @RequestParam Long productId) {
-        return new GroupDto(groupId, "updated test group name", new ArrayList<>());
+    @PutMapping("/{groupId}")
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long groupId, @RequestParam Long productId) {
+        return new ResponseEntity<>(new GroupDto(groupId, "updated test group name", new ArrayList<>()), HttpStatus.OK);
     }
 }
