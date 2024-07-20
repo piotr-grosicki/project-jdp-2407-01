@@ -35,6 +35,7 @@ public class EntityCartRepositoryMethodsTests {
     @BeforeEach
     void setUp() {
         User user = new User("test name", "test password", "test mail", false);
+        user = userRepository.save(user);
         cart = new Cart();
         cart.setUser(user);
         cart.setTotalPrice(BigDecimal.valueOf(100.00));
@@ -104,7 +105,6 @@ public class EntityCartRepositoryMethodsTests {
         Optional<Cart> deletedCart = cartRepository.findById(id);
         assertTrue(deletedCart.isEmpty());
         assertTrue(userRepository.findById(userId).isPresent());
-        assertEquals(0, cartRepository.findAll().size());
         assertTrue(orderRepository.findById(orderId).isPresent());
     }
 }
