@@ -114,6 +114,6 @@ public class EntityOrderRepositoryMethodsTests {
 
         // then
         assertFalse(orderRepository.findById(savedOrder.getId()).isPresent());
-        assertFalse(cartRepository.findById(cart.getId()).isPresent());
+        assertTrue(cartRepository.findById(cart.getId()).isPresent());
     }
 }
