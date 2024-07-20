@@ -6,16 +6,13 @@ import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,20 +53,25 @@ public class EntityOrderRepositoryMethodsTests {
     @Test
     void shouldSaveOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        Order order = new Order(LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
 
         // when
         Order savedOrder = orderRepository.save(order);
 
         // then
         assertNotNull(savedOrder.getId());
-        orderRepository.findById(savedOrder.getId());
+        Optional<Order> retrievedOrder = orderRepository.findById(savedOrder.getId());
+        assertTrue(retrievedOrder.isPresent());
+        assertEquals(order.getTotalPrice(), retrievedOrder.get().getTotalPrice());
+        assertEquals(order.getUser().getId(), retrievedOrder.get().getUser().getId());
+        assertEquals(order.getCart().getId(), retrievedOrder.get().getCart().getId());
+        assertEquals(order.getDate(), retrievedOrder.get().getDate());
 
     }
     @Test
     void shouldReadOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        Order order = new Order(LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
         Order savedOrder = orderRepository.save(order);
 
         // when
@@ -82,7 +84,7 @@ public class EntityOrderRepositoryMethodsTests {
     @Test
     void shouldUpdateOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        Order order = new Order(LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
         user.getOrders().add(order);
         Order savedOrder = orderRepository.save(order);
 
@@ -104,7 +106,7 @@ public class EntityOrderRepositoryMethodsTests {
     @Test
     void shouldDeleteOrder() {
         // given
-        Order order = new Order(null, LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        Order order = new Order(LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
         Order savedOrder = orderRepository.save(order);
 
         // when

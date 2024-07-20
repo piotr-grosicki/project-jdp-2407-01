@@ -36,7 +36,7 @@ public class Cart {
     @Digits(integer = 10, fraction = 2, message = "Total price must be a valid amount")
     private BigDecimal totalPrice = BigDecimal.ZERO;
 
-    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Order order;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ class EntityUserRepositoryMethodsTests {
     private CartRepository cartRepository;
 
     private User user;
+
+    private Cart cart;
 
     @BeforeEach
     void setUp() {
@@ -88,7 +91,8 @@ class EntityUserRepositoryMethodsTests {
     @Test
     public void shouldDeleteUser() {
         //Given
-        Order order = new Order(LocalDateTime.now(), user);
+        Order order = new Order(LocalDateTime.now(), user, cart, BigDecimal.valueOf(100));
+        user.getOrders().add(order);
         user.getOrders().add(order);
         userRepository.save(user);
         Long userId = user.getId();
