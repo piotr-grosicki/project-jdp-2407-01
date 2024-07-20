@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/shop/cart")
+@RequestMapping("/v1/shop/carts")
 public class CartController {
 
-
-    private List<CartDto> carts = new ArrayList<>();
+    private final List<CartDto> carts = new ArrayList<>();
 
     @GetMapping
     public ResponseEntity<List<CartDto>> getAllCarts() {
@@ -21,13 +20,12 @@ public class CartController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CartDto> getCartById(@PathVariable String id) {
-        for (CartDto cart : carts) {
-            if (cart.getId().equals(id)) {
-                return new ResponseEntity<>(cart, HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<CartDto> getCartById(@PathVariable Long id) {
+        return carts.stream()
+                .filter(cart -> cart.id().equals(id))
+                .findFirst()
+                .map(cart -> new ResponseEntity<>(cart, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -37,24 +35,21 @@ public class CartController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable String id, @RequestBody CartDto updatedCart) {
+    public ResponseEntity<CartDto> updateCart(@PathVariable Long id, @RequestBody CartDto updatedCart) {
         for (CartDto cart : carts) {
-            if (cart.getId().equals(id)) {
-                cart.setItems(updatedCart.getItems());
-                return new ResponseEntity<>(cart, HttpStatus.OK);
+            if (cart.id().equals(id)) {
+                carts.remove(cart);
+                carts.add(updatedCart);
+                return new ResponseEntity<>(updatedCart, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable String id) {
-        for (CartDto cart : carts) {
-            if (cart.getId().equals(id)) {
-                carts.remove(cart);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
+        return carts.removeIf(cart -> cart.id().equals(id))
+                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

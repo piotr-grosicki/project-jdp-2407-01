@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,15 +34,22 @@ public class User {
     @Column(name = "is_blocked")
     private boolean isBlocked;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Cart> carts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Cart> carts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Order> orders;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
 
     @Column(name = "user_key")
     private String userKey;
 
     @Column(name = "key_expiration")
     private LocalDateTime keyExpiration;
+
+    public User(String username, String password, String email, boolean isBlocked) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isBlocked = isBlocked;
+    }
 }
