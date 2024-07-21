@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/v1/shop/users")
 @RequiredArgsConstructor
@@ -24,11 +22,10 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto UserDto) {
+        User user = userMapper.mapToUser(UserDto);
         User createdUser = userService.createUser(user);
-        UserDto createdUserDto = userMapper.mapToUserDto(createdUser);
-        return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(userMapper.mapToUserDto(createdUser), HttpStatus.CREATED);
     }
 
     @SneakyThrows
@@ -39,7 +36,6 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
 
-
     @SneakyThrows
     @PutMapping("/{userId}/generateKey")
     public ResponseEntity<UserDto> generateRandomKey(@PathVariable Long userId) {
@@ -48,4 +44,3 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
 }
-

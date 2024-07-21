@@ -1,4 +1,7 @@
 package com.kodilla.ecommercee.exception.user;
 
-public class UserBlockedException extends Exception {
+public class UserBlockedException extends RuntimeException {
+    public UserBlockedException(String message) {
+        super(message);
+    }
 }
