@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.domain.dto;
 
-public record CreateUserDto(
+public record UserDto(
         Long id,
         String username,
         String password,

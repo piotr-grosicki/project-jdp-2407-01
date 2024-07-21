@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.exception.user.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,14 @@ public class UserService {
         return user;
     }
 
-    public String generateRandomKey(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            String key = generateRandomString();
-            User u = user.get();
-            u.setUserKey(key);
-            u.setKeyExpiration(LocalDateTime.now().plusDays(30));
-            userRepository.save(u);
-            return key;
-        }
-        return null;
+    public String generateRandomKey(Long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
+
+        String key = generateRandomString();
+        user.setUserKey(key);
+        userRepository.save(user);
+        return key;
     }
 
     private String generateRandomString() {

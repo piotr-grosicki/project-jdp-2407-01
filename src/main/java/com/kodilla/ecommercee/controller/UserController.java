@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.domain.dto.CreateUserDto;
+import com.kodilla.ecommercee.domain.dto.UserDto;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +23,15 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<CreateUserDto> createUser(@RequestBody CreateUserDto createUserDto) {
-        User user = userMapper.mapToUser(createUserDto);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        User user = userMapper.mapToUser(userDto);
         User createdUser = userService.createUser(user);
-        CreateUserDto createdUserDto = userMapper.mapToCreateUserDto(createdUser);
+        UserDto createdUserDto = userMapper.mapToCreateUserDto(createdUser);
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
 
     @SneakyThrows
-    @PostMapping("/{id}/block")
+    @PatchMapping("/{id}/block")
     public ResponseEntity<String> blockUser(@PathVariable Long id) {
         Optional<User> user = userService.blockUser(id);
         if (user.isPresent()) {
@@ -45,10 +45,6 @@ public class UserController {
     @PostMapping("/{userId}/generateKey")
     public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
         String key = userService.generateRandomKey(userId);
-        if (key != null) {
-            return new ResponseEntity<>(key, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(key, HttpStatus.OK);
     }
 }
