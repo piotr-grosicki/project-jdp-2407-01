@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/v1/shop/users")
 @RequiredArgsConstructor
@@ -31,23 +29,15 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping("/{id}/block")
-    public ResponseEntity<String> blockUser(@PathVariable Long id) {
-        Optional<User> user = userService.blockUser(id);
-        if (user.isPresent()) {
-            return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> blockUser(@PathVariable("id") Long id) {
+        userService.blockUser(id);
+        return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
     }
 
     @SneakyThrows
     @PostMapping("/{userId}/generateKey")
-    public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
+    public ResponseEntity<String> generateRandomKey(@PathVariable("userId") Long userId) {
         String key = userService.generateRandomKey(userId);
-        if (key != null) {
-            return new ResponseEntity<>(key, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(key, HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.exception.user.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,20 +20,24 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Optional<User> blockUser(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        userOptional.ifPresent(user -> {
-            user.setBlocked(true);
-            userRepository.save(user);
-        });
-        return userOptional;
+    public void blockUser(Long id) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            User userToBlock = user.get();
+            userToBlock.setBlocked(true);
+            userRepository.save(userToBlock);
+        } else {
+            throw new UserNotFoundException("User with id " + id + " not found");
+        }
     }
 
-    public String generateRandomKey(Long userId) {
-        if (userRepository.existsById(userId)) {
+    public String generateRandomKey(Long userId) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
             return generateRandomString();
+        } else {
+            throw new UserNotFoundException("User with id " + userId + " not found");
         }
-        return null;
     }
 
     private String generateRandomString() {
