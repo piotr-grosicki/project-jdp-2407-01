@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/v1/shop/users")
 @RequiredArgsConstructor
@@ -21,23 +23,32 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
+    public ResponseEntity<CreateUserDto> createUser(@RequestBody CreateUserDto createUserDto) {
         User user = userMapper.mapToUser(createUserDto);
-        userService.createUser(user);
-        return new ResponseEntity<>("User " + createUserDto.username() + " created", HttpStatus.CREATED);
+        User createdUser = userService.createUser(user);
+        CreateUserDto createdUserDto = userMapper.mapToCreateUserDto(createdUser);
+        return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
 
     @SneakyThrows
     @PostMapping("/{id}/block")
-    public ResponseEntity<String> blockUser(@PathVariable("id") Long id) {
-        userService.blockUser(id);
-        return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
+    public ResponseEntity<String> blockUser(@PathVariable Long id) {
+        Optional<User> user = userService.blockUser(id);
+        if (user.isPresent()) {
+            return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @SneakyThrows
     @PostMapping("/{userId}/generateKey")
-    public ResponseEntity<String> generateRandomKey(@PathVariable("userId") Long userId) {
+    public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
         String key = userService.generateRandomKey(userId);
-        return new ResponseEntity<>(key, HttpStatus.OK);
+        if (key != null) {
+            return new ResponseEntity<>(key, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
