@@ -19,12 +19,7 @@ public class OrderMapper {
         );
     }
 
-    /**
-     * Converts an Order entity to an OrderDto.
-     *
-     * @param order the Order entity to be converted
-     * @return the converted OrderDto
-     */
+
     public OrderDto mapToOrderDto(Order order) {
         return new OrderDto(
                 order.getId(),
@@ -32,11 +27,7 @@ public class OrderMapper {
         );
     }
 
-    /**
-     * Provides a default User object. This is just an example; adjust as needed.
-     *
-     * @return a default User object
-     */
+
     private User getDefaultUser() {
         // Here you would typically fetch a default or placeholder user from a service or repository
         // For demonstration purposes, we return a new User instance with an ID
@@ -45,11 +36,7 @@ public class OrderMapper {
         return defaultUser;
     }
 
-    /**
-     * Provides a default Cart object. This is just an example; adjust as needed.
-     *
-     * @return a default Cart object
-     */
+
     private Cart getDefaultCart() {
         // Here you would typically fetch a default or placeholder cart from a service or repository
         // For demonstration purposes, we return a new Cart instance with an ID
