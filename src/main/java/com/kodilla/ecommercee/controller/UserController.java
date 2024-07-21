@@ -38,9 +38,13 @@ public class UserController {
 
     @SneakyThrows
     @PutMapping("/{userId}/generateKey")
-    public ResponseEntity<UserDto> generateRandomKey(@PathVariable Long userId) {
-        User user = userService.generateRandomKey(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
+    public ResponseEntity<UserDto> generateRandomKey(
+            @PathVariable Long userId,
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String password) {
+        User user = userService.generateRandomKey(userId, username, email, password)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found or validation failed"));
         return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
 }
