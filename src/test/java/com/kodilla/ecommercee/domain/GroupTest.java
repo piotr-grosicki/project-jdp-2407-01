@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.ArrayList;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
+
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
@@ -31,9 +32,17 @@ public class GroupTest {
 
     @BeforeEach
     void setUp() {
+        productRepository.deleteAll();
+
         group = new Group();
         group.setName("Electronics");
         groupRepository.save(group);
+
+        Product product = new Product();
+        product.setName("Smartphone" + System.currentTimeMillis());
+        product.setPrice(BigDecimal.valueOf(500));
+        product.setGroup(group);
+        productRepository.save(product);
     }
 
     @Test
@@ -44,10 +53,12 @@ public class GroupTest {
 
         // When
         Group savedGroup = groupRepository.save(newGroup);
+        Optional<Group> foundGroup = groupRepository.findById(savedGroup.getId());
 
         // Then
         assertNotNull(savedGroup.getId());
         assertEquals("Toys", savedGroup.getName());
+        assertTrue(foundGroup.isPresent());
     }
 
     @Test
@@ -88,10 +99,27 @@ public class GroupTest {
 
         // When
         groupRepository.delete(anotherGroup);
+        Optional<Group> deletedGroup = groupRepository.findById(groupId);
 
         // Then
-        Optional<Group> deletedGroup = groupRepository.findById(groupId);
         assertTrue(deletedGroup.isEmpty());
     }
 
-}//
+    @Test
+    public void shouldNotDeleteProductWhenGroupIsDeleted() {
+        // Given
+        Product product = new Product();
+        product.setName("Smartphone" + System.currentTimeMillis());
+        product.setPrice(BigDecimal.valueOf(500));
+        product.setGroup(group);
+        productRepository.save(product);
+        Long productId = product.getId();
+
+        // When
+        groupRepository.delete(group);
+        Optional<Product> foundProduct = productRepository.findById(productId);
+
+        // Then
+        assertTrue(foundProduct.isPresent());
+    }
+}
