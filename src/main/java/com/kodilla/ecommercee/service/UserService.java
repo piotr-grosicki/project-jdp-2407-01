@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -29,15 +30,26 @@ public class UserService {
         return user;
     }
 
-    public Optional<User> generateRandomKey(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User u = user.get();
-            String key = generateRandomString();
-            u.setUserKey(key);
-            userRepository.save(u);
-            return Optional.of(u);
+    public Optional<User> generateRandomKey(Long userId, String username, String email, String password) {
+
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return Optional.empty();
         }
+
+        User user = userOpt.get();
+        boolean isUsernameValid = user.getUsername().equals(username);
+        boolean isEmailValid = user.getEmail().equals(email);
+        boolean isPasswordValid = user.getPassword().equals(password);
+
+        if (isUsernameValid && isEmailValid && isPasswordValid && !user.isBlocked()) {
+            String key = generateRandomString();
+            user.setUserKey(key);
+            user.setKeyExpiration(LocalDateTime.now().plusHours(1));
+            userRepository.save(user);
+            return Optional.of(user);
+        }
+
         return Optional.empty();
     }
 
