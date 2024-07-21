@@ -14,17 +14,17 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("User with this it doesn't exist", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
+        return new ResponseEntity<>("User with this id already exist", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserBlockedException.class)
     public ResponseEntity<Object> handleUserBlockedException(UserBlockedException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("User is blocked", HttpStatus.FORBIDDEN);
     }
 
 }
