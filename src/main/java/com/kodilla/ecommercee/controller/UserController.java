@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.dto.UserDto;
+import com.kodilla.ecommercee.exception.user.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,25 +27,25 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
         User createdUser = userService.createUser(user);
-        UserDto createdUserDto = userMapper.mapToCreateUserDto(createdUser);
+        UserDto createdUserDto = userMapper.mapToUserDto(createdUser);
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
 
     @SneakyThrows
     @PatchMapping("/{id}/block")
-    public ResponseEntity<String> blockUser(@PathVariable Long id) {
-        Optional<User> user = userService.blockUser(id);
-        if (user.isPresent()) {
-            return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UserDto> blockUser(@PathVariable Long id) {
+        User user = userService.blockUser(id)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
+        return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
 
+
     @SneakyThrows
-    @PostMapping("/{userId}/generateKey")
-    public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
-        String key = userService.generateRandomKey(userId);
-        return new ResponseEntity<>(key, HttpStatus.OK);
+    @PutMapping("/{userId}/generateKey")
+    public ResponseEntity<UserDto> generateRandomKey(@PathVariable Long userId) {
+        User user = userService.generateRandomKey(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
+        return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
 }
+
