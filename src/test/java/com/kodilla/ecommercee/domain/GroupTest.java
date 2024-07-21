@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
+import com.kodilla.ecommercee.service.GroupService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
@@ -28,6 +28,9 @@ public class GroupTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private GroupService groupService;  // Inject GroupService
 
     private Group group;
 
@@ -62,7 +65,7 @@ public class GroupTest {
         List<Group> allGroups = groupRepository.findAll();
 
         // Then
-        assertTrue(foundGroup.isPresent());
+        assertTrue(foundGroup.isPresent(), "Group should be present");
         assertEquals(groupId, foundGroup.get().getId());
         assertTrue(allGroups.contains(group));
         assertEquals(1, allGroups.size());
@@ -85,15 +88,24 @@ public class GroupTest {
         // Given
         Group anotherGroup = new Group();
         anotherGroup.setName("Furniture");
+        Product product = new Product();
+        product.setName("Chair");
+        product.setPrice(BigDecimal.valueOf(50));
+        product.setGroup(anotherGroup);
+        anotherGroup.setProducts(List.of(product));
         groupRepository.save(anotherGroup);
         Long groupId = anotherGroup.getId();
+        Long productId = product.getId();
 
         // When
         groupRepository.delete(anotherGroup);
 
         // Then
         Optional<Group> deletedGroup = groupRepository.findById(groupId);
-        assertTrue(deletedGroup.isEmpty());
+        assertTrue(deletedGroup.isEmpty(), "Group should be deleted");
+
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        assertTrue(foundProduct.isPresent(), "Product should still be present");
     }
 
     @Test
@@ -120,6 +132,10 @@ public class GroupTest {
         assertNotNull(foundGroup);
         assertEquals(1, foundGroup.getProducts().size());
         assertEquals("Smartphone", foundGroup.getProducts().get(0).getName());
-    }
 
+        // Additionally, check if the product exists in the repository
+        Optional<Product> foundProduct = productRepository.findById(product.getId());
+        assertTrue(foundProduct.isPresent());
+        assertEquals("Smartphone", foundProduct.get().getName());
+    }
 }
