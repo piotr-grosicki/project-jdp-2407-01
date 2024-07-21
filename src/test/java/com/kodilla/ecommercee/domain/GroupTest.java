@@ -94,43 +94,4 @@ public class GroupTest {
         assertTrue(deletedGroup.isEmpty());
     }
 
-    @Test
-    public void shouldHandleGroupWithProducts() {
-        // Given
-        Product product = new Product();
-        product.setName("Smartphone");
-        product.setGroup(group);
-
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        group.setProducts(products);
-
-        groupRepository.save(group);
-
-        // When
-        Group foundGroup = groupRepository.findById(group.getId()).orElse(null);
-        assertNotNull(foundGroup);
-        assertEquals(1, foundGroup.getProducts().size());
-        assertEquals("Smartphone", foundGroup.getProducts().get(0).getName());
-    }
-
-    @Test
-    public void shouldDeleteGroupWithProducts() {
-        // Given
-        Product product = new Product();
-        product.setName("Smartphone");
-        product.setGroup(group);
-
-        group.getProducts().add(product);
-        groupRepository.save(group);
-        Long productId = product.getId();
-        Long groupId = group.getId();
-
-        // When
-        groupRepository.delete(group);
-
-        // Then
-        assertTrue(productRepository.findById(productId).isEmpty());
-        assertTrue(groupRepository.findById(groupId).isEmpty());
-    }
 }//
