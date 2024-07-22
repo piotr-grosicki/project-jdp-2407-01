@@ -27,5 +27,19 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GroupAlreadyExistsException.class)
     public ResponseEntity<Object> handleGroupAlreadyExistsException(GroupAlreadyExistsException exception) {
         return new ResponseEntity<>("Group with this name already exists", HttpStatus.CONFLICT);
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
+        return new ResponseEntity<>("User with this id doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException exception) {
+        return new ResponseEntity<>("User with this id already exist", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserBlockedException.class)
+    public ResponseEntity<Object> handleUserBlockedException(UserBlockedException exception) {
+        return new ResponseEntity<>("User is blocked", HttpStatus.FORBIDDEN);
     }
 }
