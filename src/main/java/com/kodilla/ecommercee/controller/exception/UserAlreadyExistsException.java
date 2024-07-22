@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.exception.user;
+package com.kodilla.ecommercee.controller.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(String message) {
