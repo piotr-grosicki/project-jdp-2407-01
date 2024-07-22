@@ -48,4 +48,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleGenerateRandomKeyException(GenerateRandomKeyException exception) {
         return new ResponseEntity<>("User validation not passed", HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
+        return new ResponseEntity<>("User validation not passed", HttpStatus.CONFLICT);
+    }
 }

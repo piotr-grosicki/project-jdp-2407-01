@@ -32,7 +32,7 @@ public class CartController {
     @PatchMapping("/{id}/addProduct/{productId}")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable Long id, @PathVariable Long productId) {
         if (!cartService.existsCart(id)) {
-            throw new CartNotFoundException(id);
+            throw new CartNotFoundException();
         }
         Cart updatedCart = cartService.addProductToCart(id, productId);
         return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
@@ -42,7 +42,7 @@ public class CartController {
     @PatchMapping("/{id}/removeProduct/{productId}")
     public ResponseEntity<CartDto> removeProductFromCart(@PathVariable Long id, @PathVariable Long productId) {
         if (!cartService.existsCart(id)) {
-            throw new CartNotFoundException(id);
+            throw new CartNotFoundException();
         }
         Cart updatedCart = cartService.removeProductFromCart(id, productId);
         return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
@@ -52,10 +52,10 @@ public class CartController {
     @PutMapping("/{id}/update")
     public ResponseEntity<CartDto> updateCart(@PathVariable Long id, @RequestBody CartDto cartDto) {
         if (!cartService.existsCart(id)) {
-            throw new CartNotFoundException(id);
+            throw new CartNotFoundException();
         }
         Cart cart = cartMapper.mapToCart(cartDto);
-        cart.setId(id); // Ensure the cart ID is set correctly
+        cart.setId(id);
         Cart updatedCart = cartService.saveCart(cart);
         return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
     }
