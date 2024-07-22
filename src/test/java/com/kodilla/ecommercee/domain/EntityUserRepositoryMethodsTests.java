@@ -39,7 +39,7 @@ class EntityUserRepositoryMethodsTests {
     @BeforeEach
     void setUp() {
         user = new User(
-                "macro24", "password", "macro24@gmail.com",
+                null,"macro24", "password", "macro24@gmail.com",
                 false
         );
     }
