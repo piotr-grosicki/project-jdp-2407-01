@@ -14,8 +14,6 @@ import lombok.Setter;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +28,7 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     @NotNull
     private String name;
 
