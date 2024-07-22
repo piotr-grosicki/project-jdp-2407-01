@@ -64,12 +64,14 @@ class EntityProductRepositoryMethodsTests {
         //When
         Optional<Product> productFoundById = productRepository.findById(productId);
         List<Product> allFoundProducts = productRepository.findAll();
+        boolean existsByName = productRepository.existsByName("test name");
 
         //Then
         assertTrue(productFoundById.isPresent());
         assertEquals(productFoundById.get().getId(), productId);
         assertTrue(allFoundProducts.contains(savedProduct));
         assertEquals(1, allFoundProducts.size());
+        assertTrue(existsByName);
     }
 
     @Test

@@ -23,6 +23,7 @@ public class ProductMapper {
                 productDto.name(),
                 productDto.price(),
                 productDto.description(),
+                productDto.available(),
                 groupService.getGroup(productDto.groupId())
         );
     }
@@ -33,6 +34,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getPrice(),
                 product.getDescription(),
+                product.isAvailable(),
                 product.getGroup().getId()
         );
     }
