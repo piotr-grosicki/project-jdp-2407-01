@@ -5,11 +5,9 @@ import com.kodilla.ecommercee.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class GroupTest {
+public class EntityGroupRepositoryMethodsTests {
 
     @Autowired
     private GroupRepository groupRepository;
@@ -38,8 +36,6 @@ public class GroupTest {
         group = new Group();
         group.setName("Electronics");
         groupRepository.save(group);
-
-        // Brak tworzenia produktów w tej metodzie, aby oddzielić testy
     }
 
     @Test
