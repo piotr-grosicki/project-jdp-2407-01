@@ -43,4 +43,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUserBlockedException(UserBlockedException exception) {
         return new ResponseEntity<>("User is blocked", HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(GenerateRandomKeyException.class)
+    public ResponseEntity<Object> handleGenerateRandomKeyException(GenerateRandomKeyException exception) {
+        return new ResponseEntity<>("User validation not passed", HttpStatus.CONFLICT);
+    }
 }

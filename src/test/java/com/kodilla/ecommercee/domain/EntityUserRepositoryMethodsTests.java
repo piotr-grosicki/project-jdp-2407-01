@@ -71,6 +71,7 @@ class EntityUserRepositoryMethodsTests {
         assertEquals("password", userById.get().getPassword());
         assertTrue(allUsers.contains(saved));
         assertEquals(1, allUsers.size());
+        assertTrue(userRepository.existsByUsername("macro24"));
     }
 
     @Test
