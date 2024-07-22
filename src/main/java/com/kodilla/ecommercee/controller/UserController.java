@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.UserAlreadyExistsException;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.dto.UserDto;
 import com.kodilla.ecommercee.controller.exception.UserNotFoundException;
@@ -12,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/shop/users")
+@RequestMapping("/v1/ecommercee/users")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class UserController {
@@ -22,18 +23,21 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto UserDto) {
-        User user = userMapper.mapToUser(UserDto);
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        if(userService.existsByUsername(userDto.username())) {
+            throw new UserAlreadyExistsException();
+        }
+        User user = userMapper.mapToUser(userDto);
+        User createdUser = userService.saveUser(user);
         return new ResponseEntity<>(userMapper.mapToUserDto(createdUser), HttpStatus.CREATED);
     }
 
     @SneakyThrows
     @PatchMapping("/{id}/block")
     public ResponseEntity<UserDto> blockUser(@PathVariable Long id) {
-        User user = userService.blockUser(id)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found"));
-        return ResponseEntity.ok(userMapper.mapToUserDto(user));
+        User userById = userService.getUserById(id);
+        userById.setBlocked(true);
+        return ResponseEntity.ok(userMapper.mapToUserDto(userService.saveUser(userById)));
     }
 
     @SneakyThrows
@@ -43,14 +47,15 @@ public class UserController {
             @RequestParam String username,
             @RequestParam String email,
             @RequestParam String password) {
-        User user = userService.generateRandomKey(userId, username, email, password)
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found or validation failed"));
+        User user = userService.generateRandomKey(userId, username, email, password);
         return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
+    @SneakyThrows
     @PutMapping("/{id}/update")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        User updatedUser = userService.updateUser(id, userDto);
-        return ResponseEntity.ok(userMapper.mapToUserDto(updatedUser));
+        User mappedUser = userMapper.mapToUser(userDto);
+        User savedUser = userService.saveUser(mappedUser);
+        return ResponseEntity.ok(userMapper.mapToUserDto(savedUser));
     }
 }
 
