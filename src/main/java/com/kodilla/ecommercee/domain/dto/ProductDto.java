@@ -7,6 +7,7 @@ public record ProductDto(
         String name,
         BigDecimal price,
         String description,
+        boolean available,
         Long groupId
 ) {
 }

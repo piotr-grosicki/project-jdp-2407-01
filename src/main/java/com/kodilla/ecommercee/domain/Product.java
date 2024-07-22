@@ -14,6 +14,7 @@ import lombok.Setter;
 
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,6 +41,9 @@ public class Product {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "is_available")
+    private boolean isAvailable;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
