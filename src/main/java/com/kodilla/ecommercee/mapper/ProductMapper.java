@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductMapper {
 
-    @Autowired
     private final GroupService groupService;
 
     public Product mapToProduct(final ProductDto productDto) throws GroupNotFoundException {

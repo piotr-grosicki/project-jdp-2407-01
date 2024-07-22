@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GroupService {
 
-    @Autowired
     private final GroupRepository groupRepository;
 
     public Group getGroup(Long id) throws GroupNotFoundException {
