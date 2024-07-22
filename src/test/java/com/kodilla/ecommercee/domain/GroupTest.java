@@ -33,16 +33,13 @@ public class GroupTest {
     @BeforeEach
     void setUp() {
         productRepository.deleteAll();
+        groupRepository.deleteAll();
 
         group = new Group();
         group.setName("Electronics");
         groupRepository.save(group);
 
-        Product product = new Product();
-        product.setName("Smartphone" + System.currentTimeMillis());
-        product.setPrice(BigDecimal.valueOf(500));
-        product.setGroup(group);
-        productRepository.save(product);
+        // Brak tworzenia produktów w tej metodzie, aby oddzielić testy
     }
 
     @Test
