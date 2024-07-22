@@ -9,10 +9,11 @@ public class UserMapper {
 
     public User mapToUser(UserDto userDto) {
         return new User(
+                userDto.id(),
                 userDto.username(),
                 userDto.password(),
                 userDto.email(),
-                false
+                userDto.isBlocked()
         );
     }
 
@@ -21,7 +22,15 @@ public class UserMapper {
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getEmail()
+                user.getEmail(),
+                user.isBlocked()
         );
+    }
+
+    public void updateUserFromDto(UserDto userDto, User user) {
+        if (userDto.username() != null) user.setUsername(userDto.username());
+        if (userDto.password() != null) user.setPassword(userDto.password());
+        if (userDto.email() != null) user.setEmail(userDto.email());
+
     }
 }

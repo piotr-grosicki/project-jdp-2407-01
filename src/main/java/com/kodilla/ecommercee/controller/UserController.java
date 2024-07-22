@@ -47,4 +47,10 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found or validation failed"));
         return ResponseEntity.ok(userMapper.mapToUserDto(user));
     }
+    @PutMapping("/{id}/update")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        User updatedUser = userService.updateUser(id, userDto);
+        return ResponseEntity.ok(userMapper.mapToUserDto(updatedUser));
+    }
 }
+

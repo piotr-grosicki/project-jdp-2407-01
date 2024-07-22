@@ -4,6 +4,7 @@ public record UserDto(
         Long id,
         String username,
         String password,
-        String email
+        String email,
+        boolean isBlocked
 ) {
 }

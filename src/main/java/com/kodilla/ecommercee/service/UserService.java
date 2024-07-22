@@ -1,7 +1,9 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.dto.UserDto;
 import com.kodilla.ecommercee.exception.user.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,19 +17,17 @@ import java.util.Random;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    public Optional<User> blockUser(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            User u = user.get();
-            u.setBlocked(true);
-            userRepository.save(u);
-        }
-        return user;
+    public Optional<User> blockUser(Long id) throws UserNotFoundException {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        user.setBlocked(true);
+        userRepository.save(user);
+        return Optional.of(user);
     }
 
     public Optional<User> generateRandomKey(Long userId, String username, String email, String password) {
@@ -51,6 +51,11 @@ public class UserService {
         }
 
         return Optional.empty();
+    }
+    public User updateUser(Long id, UserDto userDto) throws UserNotFoundException {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        userMapper.updateUserFromDto(userDto, user);
+        return userRepository.save(user);
     }
 
     private String generateRandomString() {
