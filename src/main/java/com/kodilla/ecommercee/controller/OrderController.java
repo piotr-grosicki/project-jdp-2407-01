@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.dto.OrderDto;
+import com.kodilla.ecommercee.exception.ResourceNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,40 +28,43 @@ public class OrderController {
         List<OrderDto> orders = orderService.getAllOrders().stream()
                 .map(orderMapper::mapToOrderDto)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        return ResponseEntity.ok(orders);
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
-        OrderDto createdOrder = orderMapper.mapToOrderDto(
-                orderService.saveOrder(orderMapper.mapToOrder(orderDto)));
-        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
+        orderService.saveOrder(orderMapper.mapToOrder(orderDto));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable("id") Long id) {
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
         return orderService.getOrderById(id)
-                .map(order -> new ResponseEntity<>(orderMapper.mapToOrderDto(order), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(order -> ResponseEntity.ok(orderMapper.mapToOrderDto(order)))
+                .orElseThrow(() -> new ResourceNotFoundException("Order with ID " + id + " not found"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDto> updateOrder(@PathVariable("id") Long id, @RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
         if (!orderService.getOrderById(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("Order with ID " + id + " not found");
         }
-        orderDto = new OrderDto(id, orderDto.value());  // Zakładając, że aktualizujemy tylko wartość
+
+        var order = orderMapper.mapToOrder(orderDto);
+        order.setId(id);
+
         OrderDto updatedOrder = orderMapper.mapToOrderDto(
-                orderService.saveOrder(orderMapper.mapToOrder(orderDto)));
-        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+                orderService.saveOrder(order));
+
+        return ResponseEntity.ok(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         if (!orderService.getOrderById(id).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("Order with ID " + id + " not found");
         }
         orderService.deleteOrder(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
