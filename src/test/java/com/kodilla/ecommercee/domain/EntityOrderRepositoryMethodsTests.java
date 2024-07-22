@@ -38,7 +38,7 @@ public class EntityOrderRepositoryMethodsTests {
     @BeforeEach
     void setUp() {
         user = new User(
-                "testUser", "password", "test@example.com",
+                null,"testUser", "password", "test@example.com",
                 false
         );
         user = userRepository.save(user);
