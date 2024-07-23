@@ -39,7 +39,7 @@ class EntityUserRepositoryMethodsTests {
     @BeforeEach
     void setUp() {
         user = new User(
-                "macro24", "password", "macro24@gmail.com",
+                null,"macro24", "password", "macro24@gmail.com",
                 false
         );
     }
@@ -71,6 +71,7 @@ class EntityUserRepositoryMethodsTests {
         assertEquals("password", userById.get().getPassword());
         assertTrue(allUsers.contains(saved));
         assertEquals(1, allUsers.size());
+        assertTrue(userRepository.existsByUsername("macro24"));
     }
 
     @Test

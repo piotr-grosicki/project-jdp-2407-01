@@ -13,10 +13,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+
 import java.util.ArrayList;
+
+
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -36,9 +40,14 @@ public class GroupTest {
 
     @BeforeEach
     void setUp() {
+        productRepository.deleteAll();
+        groupRepository.deleteAll();
+
         group = new Group();
         group.setName("Electronics");
         groupRepository.save(group);
+
+        // Brak tworzenia produktów w tej metodzie, aby oddzielić testy
     }
 
     @Test
@@ -49,10 +58,12 @@ public class GroupTest {
 
         // When
         Group savedGroup = groupRepository.save(newGroup);
+        Optional<Group> foundGroup = groupRepository.findById(savedGroup.getId());
 
         // Then
         assertNotNull(savedGroup.getId());
         assertEquals("Toys", savedGroup.getName());
+        assertTrue(foundGroup.isPresent());
     }
 
     @Test
@@ -99,17 +110,20 @@ public class GroupTest {
 
         // When
         groupRepository.delete(anotherGroup);
+        Optional<Group> deletedGroup = groupRepository.findById(groupId);
 
         // Then
+
         Optional<Group> deletedGroup = groupRepository.findById(groupId);
         assertTrue(deletedGroup.isEmpty(), "Group should be deleted");
 
         Optional<Product> foundProduct = productRepository.findById(productId);
         assertTrue(foundProduct.isPresent(), "Product should still be present");
+
     }
 
     @Test
-    public void shouldHandleGroupWithProducts() {
+    public void shouldNotDeleteProductWhenGroupIsDeleted() {
         // Given
         Product product = new Product();
         product.setName("Smartphone");
@@ -133,9 +147,11 @@ public class GroupTest {
         assertEquals(1, foundGroup.getProducts().size());
         assertEquals("Smartphone", foundGroup.getProducts().get(0).getName());
 
-        // Additionally, check if the product exists in the repository
+     
         Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
         assertEquals("Smartphone", foundProduct.get().getName());
+
+
     }
 }

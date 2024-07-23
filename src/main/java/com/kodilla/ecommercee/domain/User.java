@@ -34,7 +34,7 @@ public class User {
     @Column(name = "is_blocked")
     private boolean isBlocked;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<Cart> carts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -46,7 +46,8 @@ public class User {
     @Column(name = "key_expiration")
     private LocalDateTime keyExpiration;
 
-    public User(String username, String password, String email, boolean isBlocked) {
+    public User(Long id, String username, String password, String email, boolean isBlocked) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;

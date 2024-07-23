@@ -1,41 +1,61 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.dto.CreateUserDto;
+import com.kodilla.ecommercee.controller.exception.UserAlreadyExistsException;
+import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.dto.UserDto;
+import com.kodilla.ecommercee.controller.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.UserMapper;
+import com.kodilla.ecommercee.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
-
 @RestController
-@RequestMapping("/v1/shop/users")
+@RequestMapping("/v1/ecommercee/users")
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class UserController {
 
-    private final Random random = new Random();
+    private final UserService userService;
+    private final UserMapper userMapper;
 
+    @SneakyThrows
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDTO) {
-        String message = "User " + createUserDTO.username() + " created";
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/{id}/block")
-    public ResponseEntity<String> blockUser(@PathVariable Long id) {
-        return new ResponseEntity<>("User " + id + " blocked", HttpStatus.OK);
-    }
-
-    @PostMapping("/{userId}/generateKey")
-    public ResponseEntity<String> generateRandomKey(@PathVariable Long userId) {
-        String key = generateRandomString();
-        return new ResponseEntity<>(key, HttpStatus.OK);
-    }
-
-    private String generateRandomString() {
-        String characters = "ABCD0123456789";
-        StringBuilder sb = new StringBuilder(24);
-        for (int i = 0; i < 24; i++) {
-            sb.append(characters.charAt(random.nextInt(characters.length())));
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        if(userService.existsByUsername(userDto.username())) {
+            throw new UserAlreadyExistsException();
         }
-        return sb.toString();
+        User user = userMapper.mapToUser(userDto);
+        User createdUser = userService.saveUser(user);
+        return new ResponseEntity<>(userMapper.mapToUserDto(createdUser), HttpStatus.CREATED);
+    }
+
+    @SneakyThrows
+    @PatchMapping("/{id}/block")
+    public ResponseEntity<UserDto> blockUser(@PathVariable Long id) {
+        User userById = userService.getUserById(id);
+        userById.setBlocked(true);
+        return ResponseEntity.ok(userMapper.mapToUserDto(userService.saveUser(userById)));
+    }
+
+    @SneakyThrows
+    @PutMapping("/{userId}/generateKey")
+    public ResponseEntity<UserDto> generateRandomKey(
+            @PathVariable Long userId,
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String password) {
+        User user = userService.generateRandomKey(userId, username, email, password);
+        return ResponseEntity.ok(userMapper.mapToUserDto(user));
+    }
+    @SneakyThrows
+    @PutMapping("/{id}/update")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        User mappedUser = userMapper.mapToUser(userDto);
+        User savedUser = userService.saveUser(mappedUser);
+        return ResponseEntity.ok(userMapper.mapToUserDto(savedUser));
     }
 }
+

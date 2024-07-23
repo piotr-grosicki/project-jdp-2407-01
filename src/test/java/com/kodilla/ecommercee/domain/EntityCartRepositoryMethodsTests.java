@@ -34,7 +34,7 @@ public class EntityCartRepositoryMethodsTests {
 
     @BeforeEach
     void setUp() {
-        User user = new User("test name", "test password", "test mail", false);
+        User user = new User(null,"test name", "test password", "test mail", false);
         user = userRepository.save(user);
         cart = new Cart();
         cart.setUser(user);
