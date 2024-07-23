@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
+import com.kodilla.ecommercee.service.GroupService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+
+import java.util.ArrayList;
+
+
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,6 +33,9 @@ public class GroupTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private GroupService groupService;
+
     private Group group;
 
     @BeforeEach
@@ -39,7 +47,6 @@ public class GroupTest {
         group.setName("Electronics");
         groupRepository.save(group);
 
-        // Brak tworzenia produktów w tej metodzie, aby oddzielić testy
     }
 
     @Test
@@ -68,7 +75,7 @@ public class GroupTest {
         List<Group> allGroups = groupRepository.findAll();
 
         // Then
-        assertTrue(foundGroup.isPresent());
+        assertTrue(foundGroup.isPresent(), "Group should be present");
         assertEquals(groupId, foundGroup.get().getId());
         assertTrue(allGroups.contains(group));
         assertEquals(1, allGroups.size());
@@ -91,32 +98,58 @@ public class GroupTest {
         // Given
         Group anotherGroup = new Group();
         anotherGroup.setName("Furniture");
+        Product product = new Product();
+        product.setName("Chair");
+        product.setPrice(BigDecimal.valueOf(50));
+        product.setGroup(anotherGroup);
+        anotherGroup.setProducts(List.of(product));
         groupRepository.save(anotherGroup);
         Long groupId = anotherGroup.getId();
+        Long productId = product.getId();
 
         // When
         groupRepository.delete(anotherGroup);
         Optional<Group> deletedGroup = groupRepository.findById(groupId);
 
         // Then
-        assertTrue(deletedGroup.isEmpty());
+
+        assertTrue(deletedGroup.isEmpty(), "Group should be deleted");
+
+        Optional<Product> foundProduct = productRepository.findById(productId);
+        assertTrue(foundProduct.isPresent(), "Product should still be present");
+
     }
 
     @Test
     public void shouldNotDeleteProductWhenGroupIsDeleted() {
         // Given
         Product product = new Product();
-        product.setName("Smartphone" + System.currentTimeMillis());
-        product.setPrice(BigDecimal.valueOf(500));
+        product.setName("Smartphone");
+        product.setDescription("Latest model");
+        product.setPrice(BigDecimal.valueOf(699.99));
         product.setGroup(group);
+
         productRepository.save(product);
-        Long productId = product.getId();
+
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+        group.setProducts(products);
+
+        groupRepository.save(group);
 
         // When
-        groupRepository.delete(group);
-        Optional<Product> foundProduct = productRepository.findById(productId);
+        Group foundGroup = groupRepository.findById(group.getId()).orElse(null);
 
         // Then
+        assertNotNull(foundGroup);
+        assertEquals(1, foundGroup.getProducts().size());
+        assertEquals("Smartphone", foundGroup.getProducts().get(0).getName());
+
+     
+        Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
+        assertEquals("Smartphone", foundProduct.get().getName());
+
+
     }
 }
