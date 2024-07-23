@@ -7,6 +7,7 @@ import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class GroupController {
     }
 
     @SneakyThrows
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
         if (groupService.existsGroup(groupDto.name())) {
             throw new GroupAlreadyExistsException();

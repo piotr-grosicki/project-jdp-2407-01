@@ -90,16 +90,16 @@ public class EntityOrderRepositoryMethodsTests {
 
         // when
         savedOrder.setDate(LocalDateTime.now().plusDays(1));
-        savedOrder.setOrderValue(BigDecimal.valueOf(150));
+        savedOrder.setTotalPrice(BigDecimal.valueOf(150));
         Order updatedOrder = orderRepository.save(savedOrder);
 
         // then
         assertEquals(savedOrder.getDate(), updatedOrder.getDate());
-        assertEquals(savedOrder.getOrderValue(), updatedOrder.getOrderValue());
+        assertEquals(savedOrder.getTotalPrice(), updatedOrder.getTotalPrice());
 
         User updatedUser = userRepository.findById(user.getId()).orElseThrow();
         boolean foundUpdatedOrder = updatedUser.getOrders().stream()
-                .anyMatch(o -> o.getId().equals(updatedOrder.getId()) && o.getOrderValue().equals(BigDecimal.valueOf(150)));
+                .anyMatch(o -> o.getId().equals(updatedOrder.getId()) && o.getTotalPrice().equals(BigDecimal.valueOf(150)));
         assertTrue(foundUpdatedOrder);
 
     }

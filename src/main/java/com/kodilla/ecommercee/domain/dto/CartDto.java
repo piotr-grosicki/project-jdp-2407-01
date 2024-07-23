@@ -7,7 +7,6 @@ public record CartDto(
         Long id,
         Long userId,
         BigDecimal totalPrice,
-        List<Long> productIds,
-        Long orderId
+        List<Long> productIds
 ) {
 }

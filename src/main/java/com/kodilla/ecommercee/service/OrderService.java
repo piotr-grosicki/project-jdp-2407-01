@@ -5,7 +5,6 @@ import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,22 +12,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    public List<Order> getAllOrders() {
-        return (List<Order>) orderRepository.findAll();
-    }
-
-    public Order getOrderById(Long id) {
+    public Order getOrderById(final Long id) throws OrderNotFoundException {
         return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
-    public Order saveOrder(Order order) {
+    public Order saveOrder(final Order order) {
         return orderRepository.save(order);
+    }
+
+    public List<Order> getAllOrders() {
+        return (List<Order>) orderRepository.findAll();
     }
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
 }
-

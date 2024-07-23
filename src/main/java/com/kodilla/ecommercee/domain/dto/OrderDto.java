@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public record OrderDto(
         Long orderId,
-        BigDecimal value
+        Long userId,
+        Long cartId,
+        BigDecimal totalPrice
 ) {
 }

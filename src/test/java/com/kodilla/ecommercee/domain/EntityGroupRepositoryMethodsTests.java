@@ -44,7 +44,6 @@ public class EntityGroupRepositoryMethodsTests {
         group = new Group();
         group.setName("Electronics");
         groupRepository.save(group);
-
     }
 
     @Test
@@ -115,7 +114,6 @@ public class EntityGroupRepositoryMethodsTests {
 
         Optional<Product> foundProduct = productRepository.findById(productId);
         assertTrue(foundProduct.isPresent(), "Product should still be present");
-
     }
 
     @Test
@@ -143,11 +141,9 @@ public class EntityGroupRepositoryMethodsTests {
         assertEquals(1, foundGroup.getProducts().size());
         assertEquals("Smartphone", foundGroup.getProducts().get(0).getName());
 
-     
+
         Optional<Product> foundProduct = productRepository.findById(product.getId());
         assertTrue(foundProduct.isPresent());
         assertEquals("Smartphone", foundProduct.get().getName());
-
-
     }
 }
