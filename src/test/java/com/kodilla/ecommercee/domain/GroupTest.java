@@ -34,7 +34,7 @@ public class GroupTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private GroupService groupService;  // Inject GroupService
+    private GroupService groupService;
 
     private Group group;
 
@@ -47,7 +47,6 @@ public class GroupTest {
         group.setName("Electronics");
         groupRepository.save(group);
 
-        // Brak tworzenia produktów w tej metodzie, aby oddzielić testy
     }
 
     @Test
@@ -114,7 +113,6 @@ public class GroupTest {
 
         // Then
 
-        Optional<Group> deletedGroup = groupRepository.findById(groupId);
         assertTrue(deletedGroup.isEmpty(), "Group should be deleted");
 
         Optional<Product> foundProduct = productRepository.findById(productId);
