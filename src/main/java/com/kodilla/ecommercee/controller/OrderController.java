@@ -1,9 +1,13 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.dto.OrderDto;
 import com.kodilla.ecommercee.controller.exception.ResourceNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.OrderService;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +18,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/shop/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired
     private OrderService orderService;
 
-    @Autowired
+
     private OrderMapper orderMapper;
 
     @GetMapping
@@ -30,39 +34,36 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
+    @SneakyThrows
     @PostMapping
-    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
-        orderService.saveOrder(orderMapper.mapToOrder(orderDto));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
+        Order order = orderService.saveOrder(orderMapper.mapToOrder(orderDto));
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
+    @SneakyThrows
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id)
-                .map(order -> ResponseEntity.ok(orderMapper.mapToOrderDto(order)))
-                .orElseThrow(() -> new ResourceNotFoundException("Order with ID " + id + " not found"));
+        Order order = orderService.getOrderById(id);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
+    @SneakyThrows
     @PutMapping("/{id}")
     public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
-        if (!orderService.getOrderById(id).isPresent()) {
-            throw new ResourceNotFoundException("Order with ID " + id + " not found");
-        }
+        Order existingOrder = orderService.getOrderById(id);
 
-        var order = orderMapper.mapToOrder(orderDto);
-        order.setId(id);
+        Order order = orderMapper.mapToOrder(orderDto);
+        order.setId(existingOrder.getId());
 
-        OrderDto updatedOrder = orderMapper.mapToOrderDto(
-                orderService.saveOrder(order));
-
-        return ResponseEntity.ok(updatedOrder);
+        Order updatedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(updatedOrder));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        if (!orderService.getOrderById(id).isPresent()) {
-            throw new ResourceNotFoundException("Order with ID " + id + " not found");
-        }
+        Order existingOrder = orderService.getOrderById(id);
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
