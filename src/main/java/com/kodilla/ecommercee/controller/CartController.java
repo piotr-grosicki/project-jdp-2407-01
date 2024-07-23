@@ -1,55 +1,62 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.CartNotFoundException;
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.dto.CartDto;
+import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.service.CartService;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
-@RequestMapping("/v1/shop/carts")
+@RequestMapping("/v1/ecommercee/carts")
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class CartController {
 
-    private final List<CartDto> carts = new ArrayList<>();
+    private final CartService cartService;
+    private final CartMapper cartMapper;
 
-    @GetMapping
-    public ResponseEntity<List<CartDto>> getAllCarts() {
-        return new ResponseEntity<>(carts, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CartDto> getCartById(@PathVariable Long id) {
-        return carts.stream()
-                .filter(cart -> cart.id().equals(id))
-                .findFirst()
-                .map(cart -> new ResponseEntity<>(cart, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
+    @SneakyThrows
     @PostMapping
     public ResponseEntity<CartDto> createCart(@RequestBody CartDto cartDto) {
-        carts.add(cartDto);
-        return new ResponseEntity<>(cartDto, HttpStatus.CREATED);
+        Cart cart = cartMapper.mapToCart(cartDto);
+        Cart createdCart = cartService.saveCart(cart);
+        return new ResponseEntity<>(cartMapper.mapToCartDto(createdCart), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable Long id, @RequestBody CartDto updatedCart) {
-        for (CartDto cart : carts) {
-            if (cart.id().equals(id)) {
-                carts.remove(cart);
-                carts.add(updatedCart);
-                return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-            }
+    @SneakyThrows
+    @PatchMapping("/{id}/addProduct/{productId}")
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long id, @PathVariable Long productId) {
+        if (!cartService.existsCart(id)) {
+            throw new CartNotFoundException();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Cart updatedCart = cartService.addProductToCart(id, productId);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
-        return carts.removeIf(cart -> cart.id().equals(id))
-                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @SneakyThrows
+    @PatchMapping("/{id}/removeProduct/{productId}")
+    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable Long id, @PathVariable Long productId) {
+        if (!cartService.existsCart(id)) {
+            throw new CartNotFoundException();
+        }
+        Cart updatedCart = cartService.removeProductFromCart(id, productId);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
+    }
+
+    @SneakyThrows
+    @PutMapping("/{id}/update")
+    public ResponseEntity<CartDto> updateCart(@PathVariable Long id, @RequestBody CartDto cartDto) {
+        if (!cartService.existsCart(id)) {
+            throw new CartNotFoundException();
+        }
+        Cart cart = cartMapper.mapToCart(cartDto);
+        cart.setId(id);
+        Cart updatedCart = cartService.saveCart(cart);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(updatedCart));
     }
 }
