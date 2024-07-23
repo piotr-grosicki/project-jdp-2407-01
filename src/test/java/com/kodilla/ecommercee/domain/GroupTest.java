@@ -110,7 +110,6 @@ public class GroupTest {
 
         // When
         groupRepository.delete(anotherGroup);
-        Optional<Group> deletedGroup = groupRepository.findById(groupId);
 
         // Then
 
