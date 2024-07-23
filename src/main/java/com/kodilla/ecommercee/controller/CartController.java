@@ -1,55 +1,71 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Order;
+import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.dto.CartDto;
-import org.springframework.http.HttpStatus;
+import com.kodilla.ecommercee.domain.dto.OrderDto;
+import com.kodilla.ecommercee.domain.dto.ProductDto;
+import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.service.CartService;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/shop/carts")
+@RequestMapping("/v1/ecommercee/carts")
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class CartController {
 
-    private final List<CartDto> carts = new ArrayList<>();
+    private final CartService cartService;
+    private final CartMapper cartMapper;
+    private final ProductMapper productMapper;
+    private final OrderMapper orderMapper;
 
-    @GetMapping
-    public ResponseEntity<List<CartDto>> getAllCarts() {
-        return new ResponseEntity<>(carts, HttpStatus.OK);
+    @SneakyThrows
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) {
+        Cart cart = cartMapper.mapToCart(cartDto);
+        cartService.saveCart(cart);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CartDto> getCartById(@PathVariable Long id) {
-        return carts.stream()
-                .filter(cart -> cart.id().equals(id))
-                .findFirst()
-                .map(cart -> new ResponseEntity<>(cart, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @SneakyThrows
+    @GetMapping("/products/{id}")
+    public ResponseEntity<List<ProductDto>> getAllProductsFromCart(@PathVariable Long id) {
+        List<Product> cartProducts = cartService.getCartProducts(id);
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(cartProducts));
     }
 
-    @PostMapping
-    public ResponseEntity<CartDto> createCart(@RequestBody CartDto cartDto) {
-        carts.add(cartDto);
-        return new ResponseEntity<>(cartDto, HttpStatus.CREATED);
+    @SneakyThrows
+    @PatchMapping("/add/{cartId}")
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long cartId, @RequestParam Long productId) {
+        Cart cart = cartService.addProduct(cartId, productId);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable Long id, @RequestBody CartDto updatedCart) {
-        for (CartDto cart : carts) {
-            if (cart.id().equals(id)) {
-                carts.remove(cart);
-                carts.add(updatedCart);
-                return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @SneakyThrows
+    @PatchMapping("remove/{cartId}")
+    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable Long cartId, @RequestParam Long productId) {
+        Cart cart = cartService.removeProduct(cartId, productId);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
-        return carts.removeIf(cart -> cart.id().equals(id))
-                ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @SneakyThrows
+    @PostMapping(value = "/createOrder/{cartId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OrderDto> createOrderFromCart(@PathVariable Long cartId) {
+        Cart cart = cartService.getCartById(cartId);
+        Order orderFromCart = cartService.createOrderFromCart(cart);
+        cart.setOrder(orderFromCart);
+        cartService.saveCart(cart);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderFromCart));
     }
+
 }

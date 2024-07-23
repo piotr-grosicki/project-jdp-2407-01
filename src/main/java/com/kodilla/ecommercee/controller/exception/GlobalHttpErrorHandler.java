@@ -48,4 +48,34 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleGenerateRandomKeyException(GenerateRandomKeyException exception) {
         return new ResponseEntity<>("User validation not passed", HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
+        return new ResponseEntity<>("Order with this id doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception) {
+        return new ResponseEntity<>("Cart with this id doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductAlreadyInCartException.class)
+    public ResponseEntity<Object> handleProductAlredyInCartException(ProductAlreadyInCartException exception) {
+        return new ResponseEntity<>("The product is already in the cart", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ProductDoesNotBelongToCartException.class)
+    public ResponseEntity<Object> handleProductDoesNotBelongToCartException(ProductDoesNotBelongToCartException exception) {
+        return new ResponseEntity<>("The product does not belong to the cart", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(EmptyCartException.class)
+    public ResponseEntity<Object> handleEmptyCartException(EmptyCartException exception) {
+        return new ResponseEntity<>("Cart is empty", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CartWithOrderAlreadyException.class)
+    public ResponseEntity<Object> handleCartWithOrderAlreadyException(CartWithOrderAlreadyException exception) {
+        return new ResponseEntity<>("Order for this cart already exists", HttpStatus.CONFLICT);
+    }
 }

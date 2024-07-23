@@ -33,4 +33,8 @@ public class ProductService {
     public boolean existsProduct(final String name) {
         return productRepository.existsByName(name);
     }
+
+    public List<Product> getProductsFromIdList(final List<Long> idList) {
+        return productRepository.findAllById(idList);
+    }
 }

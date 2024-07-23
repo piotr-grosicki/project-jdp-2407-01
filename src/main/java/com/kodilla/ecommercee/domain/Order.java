@@ -34,9 +34,6 @@ public class Order {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
-    @Column(name = "ORDER_VALUE")
-    private BigDecimal orderValue;
-
     @Column(name = "total_price", nullable = false)
     @Min(value = 0, message = "Total price cannot be negative")
     @Digits(integer = 10, fraction = 2, message = "Total price must be a valid amount")
