@@ -1,0 +1,563 @@
+[33mcommit ac992562aae3e5df4bdc372fc8d29392427b46ae[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mJDP240701-24[m[33m, [m[1;31morigin/JDP240701-24[m[33m)[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Sun Jul 21 00:30:04 2024 +0200
+
+    JDP240701-24
+
+[33mcommit 126123a5a5fdf928e3552964022e35c9c7a491cc[m[33m ([m[1;32mJDP240701-18[m[33m)[m
+Merge: db45acb 369af64
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Sat Jul 20 23:39:40 2024 +0200
+
+    Resolved merge conflicts and completed merge
+
+[33mcommit 369af640c788bc43c2fcee5425471fb6f9d05fc9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: bfcd80a e80a780
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Sat Jul 20 22:01:07 2024 +0200
+
+    Merge pull request #23 from piotr-grosicki/bugfixy
+    
+    Bugfixy
+
+[33mcommit e80a780cf9772d78db091ed2c52d79874974c104[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Sat Jul 20 22:00:01 2024 +0200
+
+    rozwiązywanie konfliktów ver.2
+
+[33mcommit e5a606fc353eceda7eaea3238e0e24dec682df11[m
+Merge: 23fc56a bfcd80a
+Author: serak <serakrzysztof@gmail.com>
+Date:   Sat Jul 20 21:52:06 2024 +0200
+
+    rozwiązywanie konfliktów
+
+[33mcommit 23fc56a00e51283915fe9e43485635ae811cabc1[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Sat Jul 20 20:59:06 2024 +0200
+
+    bugfixy ver.4
+
+[33mcommit bfcd80a2c40378f250b820b774905d5fe5655157[m
+Merge: d8cebad 3c7de07
+Author: likeahim <157634972+likeahim@users.noreply.github.com>
+Date:   Sat Jul 20 20:40:09 2024 +0200
+
+    Merge pull request #25 from piotr-grosicki/bugfix19072024
+    
+    Bugfix19072024
+
+[33mcommit c4fc78d183547838ab27ec4053fa9f3b0f14cede[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Sat Jul 20 19:50:03 2024 +0200
+
+    bugfixy ver.3
+
+[33mcommit 3c7de07bcd47dfba60bba3b006ed44783c0ca305[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 19 23:25:26 2024 +0200
+
+    bugfix 19072024 v2
+
+[33mcommit 95cbe97f829c31cb98886aabf0f702f16c1eed9d[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 19 23:23:02 2024 +0200
+
+    bugfix 19072024
+
+[33mcommit 69b47d99cd165a73333c0f020f5887a9e7310c17[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Fri Jul 19 21:12:29 2024 +0200
+
+    bugfixy ver.2
+
+[33mcommit 8be16838a23b606c72acb556fdbceeadabac7127[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Fri Jul 19 21:06:14 2024 +0200
+
+    bugfix
+
+[33mcommit d8cebadbb033a1346a74a52fcb51a4cbc2c0fe1d[m
+Merge: 6912738 a9ea6cb
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Fri Jul 19 19:50:22 2024 +0200
+
+    Merge pull request #22 from piotr-grosicki/bugfix18072024
+    
+    bugfix after meeting
+
+[33mcommit a9ea6cbe9b35a2d102855961b095def937dce6e7[m
+Merge: 2888ac1 6912738
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Fri Jul 19 19:47:20 2024 +0200
+
+    Merge branch 'main' into bugfix18072024
+
+[33mcommit 2888ac154e21ad7d20d2107a23bde6c015c8b3ab[m
+Merge: 1443b5c 6912738
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Fri Jul 19 19:46:25 2024 +0200
+
+    Merge branch 'main' into bugfix18072024
+
+[33mcommit 6912738f98c98cdc9d4f1728544fee82edd434aa[m
+Merge: 3e3e5da 5dfb288
+Author: likeahim <157634972+likeahim@users.noreply.github.com>
+Date:   Fri Jul 19 14:24:58 2024 +0200
+
+    Merge pull request #20 from piotr-grosicki/JDP240701-19-2
+    
+    JDP240701-19
+
+[33mcommit 1443b5cf12f295373a030331ded68df756a24831[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 19 06:08:17 2024 +0200
+
+    bugfix after meeting
+
+[33mcommit db45acb0a5a3ff94a598253c6e440eb9c9cd4937[m[33m ([m[1;31morigin/JDP240701-18[m[33m)[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Fri Jul 19 02:32:38 2024 +0200
+
+    Dodanie testów CRUD dla encji Group
+
+[33mcommit 5dfb288494364434f1eec6cd0a33cc9c2a44ec33[m
+Author: Daniel Nastalski <maspa1987@gmail.com>
+Date:   Fri Jul 19 01:40:57 2024 +0200
+
+    JDP240701-19
+
+[33mcommit 8ff7835a0094f985942ca30234e54982e6a3ead9[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Fri Jul 19 01:38:58 2024 +0200
+
+    Dodanie testowego pliku
+
+[33mcommit 3e3e5dabeb7729bbd5ca63b3b41aa44690f113b5[m
+Merge: 4e15f27 a7aef5f
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Wed Jul 17 22:39:44 2024 +0200
+
+    Merge pull request #19 from piotr-grosicki/JDP240701-20
+    
+    JDP240701-20 User CRUD tests
+
+[33mcommit a7aef5f1a0b34f9fd18542694d408925cec23d04[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Wed Jul 17 18:08:08 2024 +0200
+
+    JDP240701-20 uncommenting CartController
+
+[33mcommit 47eaa3b1920515dd7e6a19ca33c5f40b9cb18065[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Wed Jul 17 18:03:35 2024 +0200
+
+    JDP240701-20 User CRUD tests
+
+[33mcommit 4e15f27b507550cdfa09feb5b0ebe0f1cc763901[m
+Merge: ed5d1f2 2612e49
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Wed Jul 17 15:47:50 2024 +0200
+
+    Merge pull request #16 from piotr-grosicki/JDP240701-17-2
+    
+    JDP240701-2 tests update
+
+[33mcommit 2612e492feac4e7a98f6e89c130b5fd1da61e512[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Wed Jul 17 15:38:23 2024 +0200
+
+    JDP240701-11 annotation update
+
+[33mcommit b046f7eab1ec7fb0729d599c18540534e7afcbde[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 16 20:44:48 2024 +0200
+
+    JDP240701-2 tests update
+
+[33mcommit ed5d1f28528a8387f563fd91c1e36bdd683073f1[m
+Merge: 259b2a4 0525984
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Tue Jul 16 19:41:41 2024 +0200
+
+    Merge pull request #14 from piotr-grosicki/JDP240701-16
+    
+    JDP240701-16 ver.1
+
+[33mcommit 0525984697bd7d6e225a34c29b4d45e1495e38f6[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Tue Jul 16 19:40:21 2024 +0200
+
+    JDP240701-16 ver.6
+
+[33mcommit 87db65c85ade84492d3197a37e82600daab2c95c[m
+Merge: 7297ab6 259b2a4
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Tue Jul 16 18:38:49 2024 +0200
+
+    Merge branch 'main' into JDP240701-16
+
+[33mcommit 7297ab6344e9374633135b26dfe454be4dfbf0a8[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Tue Jul 16 18:25:42 2024 +0200
+
+    JDP240701-16 ver.5
+
+[33mcommit 259b2a42e5ec2184b8fc16f5df5f847f4cb8e030[m
+Merge: afc22d0 1a39e60
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Tue Jul 16 16:33:05 2024 +0200
+
+    Merge pull request #15 from piotr-grosicki/JDP240701-17
+    
+    JDP240701-17 CRUD tests for Product + updates
+
+[33mcommit 80ae96f9ba5bc5a166694cc90cdc3a72599673f9[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Tue Jul 16 16:06:49 2024 +0200
+
+    JDP240701-16 ver. 4
+
+[33mcommit 1c4b9df2521d24e1b60a88f5de1fa9238c5d880a[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Tue Jul 16 15:59:01 2024 +0200
+
+    JDP240701-16 ver.3
+
+[33mcommit f10fa0a6c579f0164b4f4905c1d84f6787c8880d[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Tue Jul 16 15:58:38 2024 +0200
+
+    JDP240701-16 ver.2
+
+[33mcommit 1a39e60bb6e012aa2a3dff87f07eb4dcf5b4a531[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 16 13:32:00 2024 +0200
+
+    JDP240701-17 updating tests
+
+[33mcommit 077f6d04c116f3729ba4d65468b90b75667d7888[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 16 06:07:07 2024 +0200
+
+    JDP240701-17 CRUD tests for Product + updates
+
+[33mcommit bf6ee9156e9df77d6eab2b211c7fb660f18f021b[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Mon Jul 15 21:27:34 2024 +0200
+
+    JDP240701-16 ver.1
+
+[33mcommit afc22d0765c076205b47560081c2d6a59fd7d827[m
+Merge: 73042be c293c25
+Author: likeahim <157634972+likeahim@users.noreply.github.com>
+Date:   Fri Jul 12 15:38:07 2024 +0200
+
+    Merge pull request #12 from piotr-grosicki/JDP240701-15
+    
+    JDP240701-15 ver.1
+
+[33mcommit c293c2516c4f4c996e437786b43dc5888ecd721e[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 12 15:36:11 2024 +0200
+
+    resolved merging problems with conflicts and imports
+
+[33mcommit 9101c1443021b5c63d200249376de124f3b79734[m
+Merge: 551fde7 73042be
+Author: likeahim <157634972+likeahim@users.noreply.github.com>
+Date:   Fri Jul 12 14:54:53 2024 +0200
+
+    Merge branch 'main' into JDP240701-15
+
+[33mcommit 73042be9882426b2552ea164c352cb65f067b7f8[m
+Merge: 5cebdab b0c64e0
+Author: kserafin92 <155660021+kserafin92@users.noreply.github.com>
+Date:   Fri Jul 12 11:59:08 2024 +0200
+
+    Merge pull request #13 from piotr-grosicki/JDP240701-11
+    
+    Jdp240701 11
+
+[33mcommit b0c64e01bd5486fd2b6c12b83c07a5556ef4c650[m[33m ([m[1;31morigin/JDP240701-11[m[33m, [m[1;32mJDP240701-11[m[33m)[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Fri Jul 12 02:06:24 2024 +0200
+
+    .
+
+[33mcommit 4d6c99ca95b4eb43696e80baeebfbe51fb188b74[m
+Merge: 5883097 5cebdab
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Fri Jul 12 00:17:01 2024 +0200
+
+    Resolve merge conflicts and integrate new changes
+
+[33mcommit 588309716116b69db68d7ae6e36d9fdfec79b4a6[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Fri Jul 12 00:08:36 2024 +0200
+
+    rozwiazywanie konfliktów
+
+[33mcommit 551fde794cd3d28f362870ddbedb800f2651a0d7[m[33m ([m[1;31morigin/JDP240701-15[m[33m)[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Thu Jul 11 23:23:22 2024 +0200
+
+    JDP240701-15 ver.4
+
+[33mcommit 00e812fc7abbd7054b44fdc5093ac6b87d8977c8[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Thu Jul 11 23:00:55 2024 +0200
+
+    JDP240701-15 ver.3
+
+[33mcommit 5cebdabe591dd04ffecd240cfa3bde57cf078a64[m
+Merge: 1da245d f101423
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Thu Jul 11 20:04:27 2024 +0200
+
+    Merge pull request #10 from piotr-grosicki/JDP240701-13
+    
+    JDP240701-13 ver.1
+
+[33mcommit f101423228fd1b8999a4e3ef3a85176c4ad73dc0[m[33m ([m[1;31morigin/JDP240701-13[m[33m)[m
+Merge: 5c2ae03 1da245d
+Author: serak <serakrzysztof@gmail.com>
+Date:   Wed Jul 10 10:55:39 2024 +0200
+
+    Resolved merge conflicts in Group.java and Product.java
+
+[33mcommit c71df370a76f3d9b92ef68a326c4a4e43f3bdaa8[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Wed Jul 10 10:29:19 2024 +0200
+
+    JDP240701-15 ver.2
+
+[33mcommit 1da245d1b0e039cbff7b5892cdf5c28d7bb37eeb[m
+Merge: b03a186 b93c1fb
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Wed Jul 10 10:08:39 2024 +0200
+
+    Merge pull request #7 from piotr-grosicki/JDP240701-12
+    
+    JDP240701-12 entity Product
+
+[33mcommit 3013a5babc27da59c03aa57732908d82bdb418d6[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Wed Jul 10 09:13:00 2024 +0200
+
+    JDP240701-15 ver.1
+
+[33mcommit 85e3a9156153f172e747047aa671c0ff5a5a12d9[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Wed Jul 10 08:55:53 2024 +0200
+
+    Encja order
+
+[33mcommit 5c2ae032594ddf245a3527e544ec4bb95ad2e462[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Wed Jul 10 01:25:52 2024 +0200
+
+    JDP240701-13 ver.2
+
+[33mcommit 61daf4713afc09cf9be34df9806e305df73f5038[m
+Merge: 67d3ade b03a186
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Wed Jul 10 00:55:26 2024 +0200
+
+    Encja order
+
+[33mcommit 3680968db92fb1c3c89fab1e0add6be6c2c4ca6b[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Wed Jul 10 00:48:05 2024 +0200
+
+    JDP240701-13 ver.1
+
+[33mcommit 67d3adeea29d68369b774d1896e1d9a428bd222b[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Wed Jul 10 00:32:05 2024 +0200
+
+    implementacja encji order
+
+[33mcommit b93c1fba3358d633da47a0114d7839aada4c53b5[m[33m ([m[1;31morigin/JDP240701-12[m[33m)[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 9 18:50:31 2024 +0200
+
+    JDP240701-12 added fields validations and validation dependency to build.gradle
+
+[33mcommit 265cb4c42942f4ee8aa4edf1305c85d9c8643bde[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 9 18:00:58 2024 +0200
+
+    JDP240701-12 updated fields name and price
+
+[33mcommit 397df1b62f4a4ee95321e353e742cfec15a5aab1[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Tue Jul 9 14:30:47 2024 +0200
+
+    JDP240701-12 entity Product
+
+[33mcommit b03a1865a92a38f78b5b5bb4ccc6dd272456a977[m
+Merge: 36de341 b61726f
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Mon Jul 8 23:39:14 2024 +0200
+
+    Merge pull request #6 from piotr-grosicki/JDP240701-3
+
+[33mcommit b61726ff3ce3015993f0aac7f49eed1b8bfd2e87[m
+Author: Daniel Nastalski <maspa1987@gmail.com>
+Date:   Mon Jul 8 18:43:41 2024 +0200
+
+    JDP240701-3
+
+[33mcommit 82bc428d6325a18e59f44feb5ca097b50faff018[m
+Author: Daniel Nastalski <maspa1987@gmail.com>
+Date:   Sun Jul 7 23:58:34 2024 +0200
+
+    JDP240701-3
+
+[33mcommit 36de3414f3a351b994f769915f66635dd2b65eca[m
+Merge: 2d0ec6b bfd2b5b
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Sun Jul 7 21:23:26 2024 +0200
+
+    Merge pull request #2 from piotr-grosicki/JDP240701-1
+
+[33mcommit bfd2b5bb9416d1b5616bbbfa238e5b28d2d635a9[m[33m ([m[1;31morigin/JDP240701-1[m[33m)[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 19:27:05 2024 +0200
+
+    resolved conflicts
+
+[33mcommit 0d115acfa9f68f114b12c8f465b7934762c8d74d[m
+Merge: 8a16c7e 450265c
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 18:47:21 2024 +0200
+
+    Merge branch 'main' into JDP240701-1
+
+[33mcommit 8a16c7e20adf5584b59a5417f4856d4d8e0a92c9[m
+Merge: a1c09e1 19236aa
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 18:46:45 2024 +0200
+
+    Merge branch 'JDP240701-2' into JDP240701-1
+
+[33mcommit 450265c89db13c00fb08af00e22df80ea1c9ff9b[m
+Merge: 97a0977 19236aa
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 18:14:46 2024 +0200
+
+    Merge remote-tracking branch 'refs/remotes/origin/JDP240701-2'
+
+[33mcommit 97a09773c29650262af7861ec9e82661540af4bf[m
+Merge: 2d0ec6b a1c09e1
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 18:14:01 2024 +0200
+
+    Merge remote-tracking branch 'refs/remotes/origin/JDP240701-1'
+    
+    # Conflicts:
+    #       build.gradle
+
+[33mcommit 2d0ec6b573a9e2ed8eb4a71bccb53e5ab9d6a876[m
+Merge: 9a18f95 3ba06a5
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Sun Jul 7 17:50:22 2024 +0200
+
+    Merge pull request #3 from piotr-grosicki/JDP240701-4
+    
+    Jdp240701 4
+
+[33mcommit 9a18f95a646221aa187b41a9bb97f32e36df21cd[m
+Merge: 83c8e91 db67fd7
+Author: Piotr Grosicki <46712508+piotr-grosicki@users.noreply.github.com>
+Date:   Sun Jul 7 17:49:16 2024 +0200
+
+    Merge pull request #1 from piotr-grosicki/JDP240701-5
+    
+    JDP240701-5
+
+[33mcommit 19236aa03588d79fa9fa787e1b62ddafffb816f7[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sun Jul 7 13:27:36 2024 +0200
+
+    JDP240701-2 initial implementation
+
+[33mcommit 3ba06a5a9bad2812514c6717153e546dc5de16de[m[33m ([m[1;31morigin/JDP240701-4[m[33m, [m[1;32mJDP240701-4[m[33m)[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Sat Jul 6 16:37:29 2024 +0200
+
+    yaml poprawione
+
+[33mcommit db67fd7b02be7142348579b4f4e38a1a4570a90b[m[33m ([m[1;31morigin/JDP240701-5[m[33m)[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Sat Jul 6 15:35:44 2024 +0200
+
+    JDP240701-5 ver.4
+
+[33mcommit a1c09e159ae301637bba8109a225f79b00c0edad[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Sat Jul 6 15:34:14 2024 +0200
+
+    JDP204701-1 requested changes - annotations for parameters and lombok dependency
+
+[33mcommit 87617af386424064c07de7d8f8f62097f39703a8[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Sat Jul 6 02:04:42 2024 +0200
+
+    controller
+
+[33mcommit 2b7ed092358148b3d5f527088f371e67bffa0a2e[m
+Author: jaroo88 <jaroslaw.kolacz@op.pl>
+Date:   Sat Jul 6 01:50:46 2024 +0200
+
+    controller
+
+[33mcommit 7bd6361323c639dfa44d9e64cc9bc2159f0d3790[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 5 19:01:48 2024 +0200
+
+    JDP204701-1 DTO added
+
+[33mcommit 27bcc4b93e11315272e024010b32a9e1b2a9b222[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 5 18:47:32 2024 +0200
+
+    JDP240701-1 ProductController with corrected @GetMapping path
+
+[33mcommit bcab73b38722525fe57747ef6145fe1bbd818b01[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Fri Jul 5 18:30:34 2024 +0200
+
+    JDP240701-5 ver.3
+
+[33mcommit 0fc28bfd68c201420fcabd98871717e39b21eecc[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 5 18:12:52 2024 +0200
+
+    Task JDP240701-1 ProductController initial implementation
+
+[33mcommit a65f25ebfe2abde45d4f828557952385febd0392[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Fri Jul 5 17:57:40 2024 +0200
+
+    JDP240701-5 ver.2
+
+[33mcommit e35e1d56bc2be057cb995587cb9806b72dda8591[m
+Author: likeahim <michal.panko21@gmail.com>
+Date:   Fri Jul 5 17:57:32 2024 +0200
+
+    Task JDP240701-1 ProductController initial implementation
+
+[33mcommit 2ec2b57fb2a5df2eda413280d433099fc35980b4[m
+Author: serak <serakrzysztof@gmail.com>
+Date:   Fri Jul 5 17:19:34 2024 +0200
+
+    JDP240701-5
+
+[33mcommit 83c8e9196acec20e995ded15c858491dc16d8267[m
+Author: piotr.grosicki <grosickip@gmail.com>
+Date:   Fri Jul 5 08:52:44 2024 +0200
+
+    first commit

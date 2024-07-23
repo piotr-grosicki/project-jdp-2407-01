@@ -1,39 +1,70 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.controller.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.domain.Order;
+import com.kodilla.ecommercee.domain.dto.OrderDto;
+import com.kodilla.ecommercee.controller.exception.ResourceNotFoundException;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.OrderService;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/shop/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
+    private OrderService orderService;
+
+
+    private OrderMapper orderMapper;
+
     @GetMapping
-    public ResponseEntity<List<String>> getAllOrders() {
-        List<String> orders = Arrays.asList("Order1", "Order2", "Order3");
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+    public ResponseEntity<List<OrderDto>> getAllOrders() {
+        List<OrderDto> orders = orderService.getAllOrders().stream()
+                .map(orderMapper::mapToOrderDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(orders);
     }
 
+    @SneakyThrows
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody String order) {
-        return new ResponseEntity<>("Order created: " + order, HttpStatus.CREATED);
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) {
+        Order order = orderService.saveOrder(orderMapper.mapToOrder(orderDto));
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
+    @SneakyThrows
     @GetMapping("/{id}")
-    public ResponseEntity<String> getOrderById(@PathVariable Long id) {
-        return new ResponseEntity<>("Order details for ID: " + id, HttpStatus.OK);
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
+        Order order = orderService.getOrderById(id);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
+    @SneakyThrows
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateOrder(@PathVariable Long id, @RequestBody String order) {
-        return new ResponseEntity<>("Order updated for ID: " + id + " with data: " + order, HttpStatus.OK);
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
+        Order existingOrder = orderService.getOrderById(id);
+
+        Order order = orderMapper.mapToOrder(orderDto);
+        order.setId(existingOrder.getId());
+
+        Order updatedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(updatedOrder));
     }
 
+    @SneakyThrows
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Order existingOrder = orderService.getOrderById(id);
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }
