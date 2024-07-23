@@ -1,5 +1,4 @@
 package com.kodilla.ecommercee.domain;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
@@ -39,6 +38,7 @@ public class Cart {
 
 
     @OneToOne(mappedBy = "cart", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -49,9 +49,9 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 
-    public Cart(User user, Order order, List<Product> products) {
+    public Cart(User user, BigDecimal totalPrice, List<Product> products) {
         this.user = user;
-        this.order = order;
+        this.totalPrice = totalPrice;
         this.products = products;
     }
 }

@@ -1,5 +1,4 @@
 package com.kodilla.ecommercee.controller.exception;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -49,14 +48,33 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("User validation not passed", HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneralException(Exception ex) {
-        return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
         return new ResponseEntity<>("Order with this id doesn't exist", HttpStatus.NOT_FOUND);
     }
-}
 
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception) {
+        return new ResponseEntity<>("Cart with this id doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductAlreadyInCartException.class)
+    public ResponseEntity<Object> handleProductAlredyInCartException(ProductAlreadyInCartException exception) {
+        return new ResponseEntity<>("The product is already in the cart", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ProductDoesNotBelongToCartException.class)
+    public ResponseEntity<Object> handleProductDoesNotBelongToCartException(ProductDoesNotBelongToCartException exception) {
+        return new ResponseEntity<>("The product does not belong to the cart", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(EmptyCartException.class)
+    public ResponseEntity<Object> handleEmptyCartException(EmptyCartException exception) {
+        return new ResponseEntity<>("Cart is empty", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CartWithOrderAlreadyException.class)
+    public ResponseEntity<Object> handleCartWithOrderAlreadyException(CartWithOrderAlreadyException exception) {
+        return new ResponseEntity<>("Order for this cart already exists", HttpStatus.CONFLICT);
+    }
+}
