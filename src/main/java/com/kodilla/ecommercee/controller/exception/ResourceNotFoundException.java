@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.exception;
+package com.kodilla.ecommercee.controller.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
